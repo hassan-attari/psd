@@ -1,0 +1,25 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: Default
+
+steps:
+  - checkout: self
+    persistCredentials: 'true'
+    displayName: 'Checkout'
+    clean: true
+
+  - task: CreatePullRequest@1
+    inputs:
+      repoType: Azure DevOps
+      sourceBranch: '$(Build.SourceBranch)'
+      targetBranch: 'dev;sup'
+      title: '$(Build.SourceBranch)'
+      description: 'Test PR'
+      reviewers: 'MMR\\F.Ghasemloo:ARKACollection'
+      autoComplete: true
+    env:
+      System_AccessToken: $(System.AccessToken)

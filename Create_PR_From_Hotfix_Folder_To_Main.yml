@@ -1,0 +1,25 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+      - 'sup'
+  paths:
+    include:
+      - 'hotfix/*'
+
+jobs:
+  - job:
+    displayName: create pull request to main
+    pool:
+      name: 'Default'
+    steps:
+      - checkout: self
+      - task: CreatePullRequest@1
+        inputs:
+          repoType: 'Azure DevOps'
+          repositorySelector: 'currentBuild'
+          sourceBranch: '$(System.PullRequest.SourceBranch)'
+          targetBranch: 'main'
+          title: 'Merge $(System.PullRequest.SourceBranch) into main'
+          linkWorkItems: false
