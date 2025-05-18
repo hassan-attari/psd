@@ -1,57 +1,93 @@
+/** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
+import styled from '@emotion/styled';
 import { Button } from '../../components';
+
+const Container = styled.div`
+  padding: 2rem;
+`;
+
+const Title = styled.h1`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+`;
+
+const Section = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+`;
+
+const ColorGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
+const ColorSwatch = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+`;
+
+const ColorBox = styled.div<{ bgColor: string }>`
+  width: 60px;
+  height: 20px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  margin-bottom: 0.25rem;
+  background-color: ${({ bgColor }) => bgColor};
+`;
+
+const ColorSectionWrapper = styled.div`
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
 
 export const Login = () => {
   const theme = useTheme();
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
-    <div key={label} className="mb-8">
-      <h2 className="text-lg font-semibold mb-2 capitalize">{label}</h2>
-      <div className="flex flex-wrap gap-4">
+    <Section key={label}>
+      <SectionTitle>{label}</SectionTitle>
+      <ColorGrid>
         {Object.entries(colors)
           .filter(([_, value]) => typeof value === 'string')
           .map(([key, value]) => {
             const color = value as string;
             return (
-              <div key={key} className="flex flex-col items-center text-xs">
-                <div
-                  className="w-16 h-8 rounded shadow mb-1"
-                  style={{
-                    width:60,
-                    height:20,
-                    backgroundColor: color,
-                    borderRadius: 5,
-                  }}
-                  title={`${label}.${key}`}
-                />
+              <ColorSwatch key={key}>
+                <ColorBox bgColor={color} title={`${label}.${key}`} />
                 <span>{key}</span>
-              </div>
+              </ColorSwatch>
             );
           })}
-      </div>
-    </div>
+      </ColorGrid>
+    </Section>
   );
-  
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Login Page</h1>
+    <Container>
+      <Title>Login Page</Title>
       <Button />
 
-      <div className="mt-10 flex  gap-4">
+      <ColorSectionWrapper>
         {Object.entries(theme.palette).map(([label, colors]) =>
           typeof colors === 'object' ? renderColorSet(label, colors) : null
         )}
-      </div>
-    </div>
+      </ColorSectionWrapper>
+    </Container>
   );
 };
-
-
-
-
-
-
 
 
 
