@@ -1,7 +1,7 @@
-import { Button } from '../../components';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import { theme } from '../../components/theme/theme';
+import { theme } from '@dashboard/kit';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -34,19 +34,34 @@ const typographyClasses = [
   'text-3xl-bold'
 ];
 
-export const Login = () => {
+const TypographyDemo = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <Button />
-        <div>
-          {typographyClasses.map((className, index) => (
-            <Typography key={index} className={className}>
-               Dashboard sample text
-            </Typography>
-          ))}
-        </div>
-      </div>
-    </ThemeProvider>
+    <div>
+      {typographyClasses.map((className, index) => (
+        <Typography key={index} className={className}>
+          {className} - Dashboard sample text
+        </Typography>
+      ))}
+    </div>
   );
 };
+
+const meta: Meta<typeof TypographyDemo> = {
+  title: 'Components/Typography',
+  component: TypographyDemo,
+  tags: ['autodocs'],
+  decorators: [
+    (Story) => (
+      <ThemeProvider theme={theme}>
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
+};
+
+export default meta;
+type Story = StoryObj<typeof TypographyDemo>;
+
+export const Default: Story = {
+  args: {},
+}; 
