@@ -11,7 +11,6 @@ const palette = {
     darkActive: '#1e3c6e',
     darker: '#1e3c6e',
 
-    contrastText: '#ffffff',
   },
   secondary: {
     light: '#e6f6f4',
@@ -24,7 +23,6 @@ const palette = {
     darkHover: '#006557',
     darkActive: '#004c41',
     darker: '#003b33',
-    contrastText: '#ffffff',
   },
   error: {
     light: '#fde6e6',
@@ -37,7 +35,6 @@ const palette = {
     darkHover: '#8d0000',
     darkActive: '#6a0000',
     darker: '#520000 ',
-    contrastText: '#ffffff',
   },
   gray: {
     light: '#ffffff',
@@ -50,7 +47,6 @@ const palette = {
     darkHover: '#999999',
     darkActive: '#737373',
     darker: '#595959',
-    contrastText: '#000000',
   },
   warning: {
     light: '#ffefe7',
@@ -63,7 +59,6 @@ const palette = {
     darkHover: '#993a06',
     darkActive: '#732b05',
     darker: '#592204',
-    contrastText: '#000000',
   },
   yellow: {
     light: '#fff9e6',
@@ -76,7 +71,18 @@ const palette = {
     darkHover: '#997603',
     darkActive: '#735902',
     darker: '#594502',
-    contrastText: '#000000',
+  },
+  success: {
+    light: '#e6faee',
+    lightHover: '#d9f7e5',
+    lightActive: '#b0eeca',
+    main: '#00c853',
+    normalHover: '#00b44b',
+    normalActive: '#00a042',
+    dark: '#00963e',
+    darkHover: '#007832',
+    darkActive: '#005a25',
+    darker: '#00461d',
   },
 };
 
