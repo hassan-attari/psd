@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { theme } from '../theme/theme';
 import { ThemeProvider } from '@mui/material/styles';
 
-const TypographyDemo = () => {
+const TypographyDemo: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div>
