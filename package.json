@@ -2,7 +2,11 @@
   "name": "@dashboard/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,yml,yaml,css,scss,html}\"",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -17,6 +21,8 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.8.0",
     "@nx/cypress": "21.0.3",
     "@nx/eslint": "21.0.3",
@@ -53,8 +59,10 @@
     "eslint-plugin-jsx-a11y": "6.10.1",
     "eslint-plugin-react": "7.35.0",
     "eslint-plugin-react-hooks": "5.0.0",
+    "husky": "^9.1.7",
     "jiti": "2.4.2",
     "jsdom": "~22.1.0",
+    "lint-staged": "^16.0.0",
     "nx": "21.0.3",
     "prettier": "^2.6.2",
     "rollup": "^4.14.0",
@@ -69,5 +77,23 @@
   "workspaces": [
     "apps/*",
     "kit"
-  ]
+  ],
+  "lint-staged": {
+    "{kit,apps}/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "tsc --noEmit"
+    ],
+    "{kit,apps}/**/*.{json,md,yml,yaml,css,scss,html}": [
+      "prettier --write"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "tsc --noEmit"
+    ],
+    "*.{json,md,yml,yaml,css,scss,html}": [
+      "prettier --write"
+    ]
+  }
 }
