@@ -2,7 +2,7 @@
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
 import { Button } from '../../components';
-import { Typography } from '@mui/material';
+import { Switch, Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
 const typographyClasses = [
@@ -85,6 +85,7 @@ const ColorSectionWrapper = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
 `;
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const Login = () => {
   const theme = useTheme();
@@ -127,6 +128,12 @@ export const Login = () => {
             typeof colors === 'object' ? renderColorSet(label, colors) : null
           )}
         </ColorSectionWrapper>
+        <Switch {...label} size='medium'/>
+        <Switch {...label} size='small'/>
+        <Switch {...label} disabled size='medium'/>
+        <Switch {...label} disabled size='small'/>
+        <Switch {...label} disabled size='medium' defaultChecked/>
+        <Switch {...label} disabled size='small' defaultChecked/>
       </Container>
     </ThemeProvider>
   );
