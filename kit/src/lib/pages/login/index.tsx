@@ -2,7 +2,7 @@
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
 import { Button } from '../../components';
-import { Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
 const typographyClasses = [
@@ -127,6 +127,11 @@ export const Login = () => {
             typeof colors === 'object' ? renderColorSet(label, colors) : null
           )}
         </ColorSectionWrapper>
+        <Chip label="success" color="error" />
+        <Chip label="success" color="warning" />
+        <Chip label="success" color="default" />
+        <Chip label="success" color="secondary" />
+        <Chip label="success" color="primary" />
       </Container>
     </ThemeProvider>
   );

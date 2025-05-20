@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material';
 import { typographyStyleOverrides } from './typography';
 import palette from './palette';
+import { chipStyleOverrides } from './status';
 
 export const theme = createTheme({
   palette: palette,
@@ -10,6 +11,9 @@ export const theme = createTheme({
   components: {
     MuiTypography: {
       styleOverrides: typographyStyleOverrides,
+    },
+    MuiChip: {
+      styleOverrides: chipStyleOverrides,
     },
   },
 });
