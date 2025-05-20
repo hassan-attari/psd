@@ -9,11 +9,7 @@ export const theme = createTheme({
     fontFamily: 'Roboto, sans-serif',
   },
   components: {
-    MuiTypography: {
-      styleOverrides: typographyStyleOverrides,
-    },
-    MuiChip: {
-      styleOverrides: chipStyleOverrides,
-    },
+    MuiTypography: typographyStyleOverrides,
+    MuiChip: chipStyleOverrides,
   },
 });
