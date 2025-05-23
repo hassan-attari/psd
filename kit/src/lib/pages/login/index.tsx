@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button } from '../../components';
+import { Dropdown, Button, DropdownOption } from '../../components';
 import { Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -86,8 +88,22 @@ const ColorSectionWrapper = styled.div`
   gap: 1rem;
 `;
 
+const myOptions: DropdownOption<number>[] = [
+  { value: 1, label: 'Option A' },
+  { value: 2, label: 'Option B', disabled: true }, // Disabled option
+  { value: 3, label: 'Option C' },
+  { value: 4, label: 'Option D' },
+];
+
+const myStringOptions: DropdownOption<string>[] = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+];
+
 export const Login = () => {
   const theme = useTheme();
+  const [dropdownValue, setDropdownValue] = useState();
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
@@ -108,6 +124,14 @@ export const Login = () => {
     </Section>
   );
 
+  const [selectedValue, setSelectedValue] = useState<number | ''>('');
+  const [selectedMultiValues, setSelectedMultiValues] = useState<string[]>([]);
+  const [disabledDropdown, setDisabledDropdown] = useState(false);
+
+  const handleSingleChange = (event: SelectChangeEvent<number | ''>) => {
+    setSelectedValue(event.target.value);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -127,6 +151,25 @@ export const Login = () => {
             typeof colors === 'object' ? renderColorSet(label, colors) : null
           )}
         </ColorSectionWrapper>
+        <Dropdown // Specify the value type for single select
+          name="single-select"
+          label="Select a Single Option"
+          options={myOptions}
+          value={selectedValue}
+          onChange={handleSingleChange}
+        />
+
+        {/* <Dropdown // Specify the value type for multi select
+          name="multi-select"
+          label="Select Multiple Fruits"
+          options={myStringOptions}
+          value={selectedMultiValues}
+          onChange={handleMultiChange}
+          multiple
+          helperText="You can select multiple fruits."
+          variant="filled"
+          placeholder="Select fruits..."
+        /> */}
       </Container>
     </ThemeProvider>
   );
