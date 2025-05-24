@@ -2,7 +2,7 @@
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
 import { Button } from '../../components';
-import { Chip, Typography } from '@mui/material';
+import { Chip, Typography, Switch } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
 const typographyClasses = [
@@ -85,6 +85,7 @@ const ColorSectionWrapper = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
 `;
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const Login = () => {
   const theme = useTheme();
@@ -132,6 +133,12 @@ export const Login = () => {
         <Chip label="success" color="default" />
         <Chip label="success" color="secondary" />
         <Chip label="success" color="primary" />
+        <Switch {...label} size="medium" />
+        <Switch {...label} size="small" />
+        <Switch {...label} disabled size="medium" />
+        <Switch {...label} disabled size="small" />
+        <Switch {...label} disabled size="medium" defaultChecked />
+        <Switch {...label} disabled size="small" defaultChecked />
       </Container>
     </ThemeProvider>
   );
