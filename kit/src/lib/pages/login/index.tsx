@@ -1,9 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button } from '../../components';
 import { Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+
+import {
+  Dashboard,
+  LocalDining,
+  SwapVerticalCircleOutlined,
+} from '@mui/icons-material';
+import { useState } from 'react';
+import { Loading } from '../../components/loading';
+import { Button } from '../../components/button';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -86,8 +95,34 @@ const ColorSectionWrapper = styled.div`
   gap: 1rem;
 `;
 
+const ButtonRow = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const ButtonGroup = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const ButtonLabel = styled.div`
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+`;
+
 export const Login = () => {
   const theme = useTheme();
+  const variants = ['outlined', 'contained'] as const;
+  const colors = [
+    'primary',
+    'secondary',
+    'error',
+    'info',
+    'success',
+    'warning',
+  ] as const;
+  const sizes = ['small', 'medium', 'large'] as const;
+  const [loading, setLoading] = useState(false);
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
@@ -112,7 +147,57 @@ export const Login = () => {
     <ThemeProvider theme={theme}>
       <Container>
         <Title>Login Page</Title>
-        <Button />
+
+        <Title>Button Style Guide</Title>
+        {colors.map((color) => (
+          <ButtonGroup key={color}>
+            <ButtonLabel>{color.toUpperCase()} Buttons</ButtonLabel>
+            {variants.map((variant) => (
+              <div key={`${color}-${variant}`}>
+                <ButtonLabel>
+                  {variant.charAt(0).toUpperCase() + variant.slice(1)} Variant
+                </ButtonLabel>
+                {sizes.map((size) => (
+                  <ButtonRow key={`${variant}-${size}`}>
+                    <Button
+                      variant={variant}
+                      color={color}
+                      size={size}
+                      loadingIndicator={<LocalDining />}
+                    >
+                      Normal
+                    </Button>
+                    <Button
+                      loading={true}
+                      loadingPosition="start"
+                      variant="outlined"
+                      loadingIndicator={<AutorenewIcon />}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      variant={variant}
+                      color={color}
+                      size={size}
+                      disabled
+                    >
+                      Disabled
+                    </Button>
+                    <Button
+                      variant={variant}
+                      color={color}
+                      size={size}
+                      startIcon={<Dashboard />}
+                    >
+                      Icon
+                    </Button>
+                  </ButtonRow>
+                ))}
+              </div>
+            ))}
+          </ButtonGroup>
+        ))}
+
         <div>
           <div>
             {typographyClasses.map((className, index) => (
@@ -128,6 +213,12 @@ export const Login = () => {
           )}
         </ColorSectionWrapper>
       </Container>
+      <Loading open={false} />
+      <Button loading={true} size="small" />
+      <Button loading={true} size="medium" />
+      <Button loading={true} size="large" color="secondary" />
+      <Button loading={true} />
+
     </ThemeProvider>
   );
 };

@@ -84,6 +84,14 @@ const palette = {
     darkActive: '#005a25',
     darker: '#00461d',
   },
+  white: {
+    main: '#ffffff',
+    contrast: '#000000',
+  },
+  black: {
+    main: '#000000',
+    contrast: '#ffffff',
+  },
 };
 
 export default palette;
