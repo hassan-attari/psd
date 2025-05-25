@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material';
 import { typographyStyleOverrides } from './typography';
 import palette from './palette';
+import { chipStyleOverrides } from './status';
 
 export const theme = createTheme({
   palette: {
@@ -20,9 +21,8 @@ export const theme = createTheme({
     fontFamily: 'Roboto, sans-serif',
   },
   components: {
-    MuiTypography: {
-      styleOverrides: typographyStyleOverrides,
-    },
+    MuiTypography: typographyStyleOverrides,
+    MuiChip: chipStyleOverrides,
     MuiOutlinedInput: {
       styleOverrides: {
         root: {

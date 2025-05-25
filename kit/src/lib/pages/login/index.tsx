@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
+import { Chip, Typography, Switch } from '@mui/material';
 import { Dropdown, Button, DropdownOption } from '../../components';
-import { Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -87,6 +87,7 @@ const ColorSectionWrapper = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
 `;
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const myOptions: DropdownOption<number>[] = [
   { value: 1, label: 'Option A' },
@@ -151,6 +152,17 @@ export const Login = () => {
             typeof colors === 'object' ? renderColorSet(label, colors) : null
           )}
         </ColorSectionWrapper>
+        <Chip label="success" color="error" />
+        <Chip label="success" color="warning" />
+        <Chip label="success" color="default" />
+        <Chip label="success" color="secondary" />
+        <Chip label="success" color="primary" />
+        <Switch {...label} size="medium" />
+        <Switch {...label} size="small" />
+        <Switch {...label} disabled size="medium" />
+        <Switch {...label} disabled size="small" />
+        <Switch {...label} disabled size="medium" defaultChecked />
+        <Switch {...label} disabled size="small" defaultChecked />
         <Dropdown // Specify the value type for single select
           name="single-select"
           label="Select a Single Option"
