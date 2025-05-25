@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import { Button, Loading } from '../../components';
 import { Chip, Typography, Switch } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import CustomPagination from '../../components/pagination/index';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { Dashboard, LocalDining } from '@mui/icons-material';
 
@@ -116,6 +118,9 @@ export const Login = () => {
     'warning',
   ] as const;
   const sizes = ['small', 'medium', 'large'] as const;
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(25);
+  const totalItems = 385;
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
@@ -216,6 +221,17 @@ export const Login = () => {
         <Switch {...label} disabled size="small" />
         <Switch {...label} disabled size="medium" defaultChecked />
         <Switch {...label} disabled size="small" defaultChecked />
+        
+        <CustomPagination
+          totalItems={totalItems}
+          page={page}
+          perPage={perPage}
+          onPageChange={setPage}
+          onPerPageChange={(newPerPage) => {
+            setPerPage(newPerPage);
+            setPage(1);
+          }}
+        />
       </Container>
       <Loading open={false} />
       <Button loading={true} size="small" />

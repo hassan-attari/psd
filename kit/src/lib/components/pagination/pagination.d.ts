@@ -1,0 +1,8 @@
+export interface CustomPaginationProps {
+  totalItems: number;
+  page: number;
+  perPage: number;
+  onPageChange: (page: number) => void;
+  onPerPageChange: (perPage: number) => void;
+  perPageOptions?: number[];
+}
