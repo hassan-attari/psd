@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material';
 import { typographyStyleOverrides } from './typography';
 import palette from './palette';
+import MuiButton from './button';
 
 export const theme = createTheme({
   palette: palette,
@@ -11,5 +12,6 @@ export const theme = createTheme({
     MuiTypography: {
       styleOverrides: typographyStyleOverrides,
     },
+    MuiButton: MuiButton,
   },
 });
