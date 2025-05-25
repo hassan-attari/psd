@@ -92,6 +92,9 @@ const palette = {
     main: '#000000',
     contrast: '#ffffff',
   },
+  custom: {
+    loader: '#4000ff', 
+  },
 };
 
 export default palette;

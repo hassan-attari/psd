@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
-import { Box } from '@mui/material';
+import { Box, Modal } from '@mui/material';
 
 // انیمیشن نقطه‌ها
 export const createDotAnimation = (start: number, end: number) => keyframes`
@@ -63,4 +63,12 @@ export const ModalContent = styled(Box)`
   align-items: center;
   height: 100vh;
   z-index: 1000;
+`;
+
+export const StyledModal = styled(Modal)`
+  .MuiBackdrop-root {
+    background-color: ${({ theme }) => `${theme.palette.white.main}E9`}; /* 90% opacity */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* برای Safari */
+  }
 `;

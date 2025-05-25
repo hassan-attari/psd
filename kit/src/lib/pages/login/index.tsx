@@ -122,7 +122,6 @@ export const Login = () => {
     'warning',
   ] as const;
   const sizes = ['small', 'medium', 'large'] as const;
-  const [loading, setLoading] = useState(false);
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
@@ -213,7 +212,7 @@ export const Login = () => {
           )}
         </ColorSectionWrapper>
       </Container>
-      <Loading open={false} />
+      <Loading open={true} />
       <Button loading={true} size="small" />
       <Button loading={true} size="medium" />
       <Button loading={true} size="large" color="secondary" />

@@ -9,20 +9,9 @@ export const theme = createTheme({
     fontFamily: 'Roboto, sans-serif',
   },
   components: {
-   
     MuiTypography: {
       styleOverrides: typographyStyleOverrides,
     },
     MuiButton: MuiButton,
-    MuiCircularProgress : {
-      styleOverrides: {
-        root: {
-          color: 'red', // your desired color
-          width: 16,
-          height: 16,
-        },
-      },
-    }
-    
   },
 });

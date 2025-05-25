@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal } from '@mui/material';
-import { Dot, DotsWrapper, ModalContent } from './loading.styles';
+import { Dot, DotsWrapper, ModalContent, StyledModal } from './loading.styles';
 import { LoadingDotProps, LoadingProps } from './loading';
+import { theme } from '../theme/theme';
 
 export const LoadingDot: React.FC<LoadingDotProps> = ({
   color,
@@ -17,21 +17,16 @@ export const LoadingDot: React.FC<LoadingDotProps> = ({
 
 export const Loading: React.FC<LoadingProps> = ({ open }) => {
   return (
-    <Modal
+    <StyledModal
       open={open}
       aria-labelledby="loading-indicator"
       aria-describedby="loading-indicator-description"
-      sx={{
-        '& .MuiBackdrop-root': {
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        },
-      }}
     >
       <ModalContent>
         <DotsWrapper>
-          <LoadingDot color="#4000ff" width={10} height={10} />
+          <LoadingDot color={theme.palette.custom.loader} width={10} height={10} />
         </DotsWrapper>
       </ModalContent>
-    </Modal>
+    </StyledModal>
   );
 };
