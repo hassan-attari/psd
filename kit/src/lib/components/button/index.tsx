@@ -1,14 +1,33 @@
-import MuiButton from '@mui/material/Button';
-import styled from '@emotion/styled';
+/** @jsxImportSource @emotion/react */
+import React from 'react';
+import { LoadingDot } from '../loading';
+import { HiddenContent, LoaderWrapper, StyledButton } from './button.styles';
+import { LoadingButtonProps } from './button';
+import { theme } from '../theme/theme';
 
-const StyledApp = styled.div`
-  // Your style here
-`;
-export const Button = () => {
+export const Button: React.FC<LoadingButtonProps> = ({
+  loading = false,
+  children = '',
+  variant = 'contained',
+  color = 'primary',
+  ...props
+}) => {
   return (
-    <StyledApp>
-      <div role="navigation"></div>
-      <MuiButton variant="outlined">Outlined</MuiButton>
-    </StyledApp>
+    <StyledButton variant={variant} color={color} {...props}>
+      {loading ? (
+        <>
+          <HiddenContent>{children}</HiddenContent>
+          <LoaderWrapper>
+            <LoadingDot
+              color={theme.palette.common.white}
+              width={5}
+              height={5}
+            />
+          </LoaderWrapper>
+        </>
+      ) : (
+        children
+      )}
+    </StyledButton>
   );
 };
