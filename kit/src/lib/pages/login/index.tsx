@@ -2,10 +2,11 @@
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
 import { Chip, Typography, Switch } from '@mui/material';
-import { Dropdown, Button, DropdownOption } from '../../components';
+import { Dropdown, Button } from '../../components';
 import { ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
+import { DropdownOption } from '../../components/dropdown/dropdown';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -89,22 +90,15 @@ const ColorSectionWrapper = styled.div`
 `;
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const myOptions: DropdownOption<number>[] = [
-  { value: 1, label: 'Option A' },
-  { value: 2, label: 'Option B', disabled: true }, // Disabled option
-  { value: 3, label: 'Option C' },
-  { value: 4, label: 'Option D' },
-];
-
-const myStringOptions: DropdownOption<string>[] = [
-  { value: 'apple', label: 'Apple' },
-  { value: 'banana', label: 'Banana' },
-  { value: 'cherry', label: 'Cherry' },
+const options: DropdownOption<number>[] = [
+  { value: 10, label: 'option 1' },
+  { value: 20, label: 'option 2' },
+  { value: 30, label: 'option 3', disabled: true },
+  { value: 40, label: 'option 4' },
 ];
 
 export const Login = () => {
   const theme = useTheme();
-  const [dropdownValue, setDropdownValue] = useState();
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
@@ -125,12 +119,9 @@ export const Login = () => {
     </Section>
   );
 
-  const [selectedValue, setSelectedValue] = useState<number | ''>('');
-  const [selectedMultiValues, setSelectedMultiValues] = useState<string[]>([]);
-  const [disabledDropdown, setDisabledDropdown] = useState(false);
-
-  const handleSingleChange = (event: SelectChangeEvent<number | ''>) => {
-    setSelectedValue(event.target.value);
+  const [dropdownValue, setDropdownValue] = useState<number | ''>('');
+  const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
+    setDropdownValue(event.target.value as number | '');
   };
 
   return (
@@ -163,25 +154,15 @@ export const Login = () => {
         <Switch {...label} disabled size="small" />
         <Switch {...label} disabled size="medium" defaultChecked />
         <Switch {...label} disabled size="small" defaultChecked />
-        <Dropdown // Specify the value type for single select
-          name="single-select"
-          label="Select a Single Option"
-          options={myOptions}
-          value={selectedValue}
-          onChange={handleSingleChange}
-        />
-
-        {/* <Dropdown // Specify the value type for multi select
-          name="multi-select"
-          label="Select Multiple Fruits"
-          options={myStringOptions}
-          value={selectedMultiValues}
-          onChange={handleMultiChange}
-          multiple
-          helperText="You can select multiple fruits."
-          variant="filled"
-          placeholder="Select fruits..."
-        /> */}
+        <ColorSectionWrapper>
+          <Dropdown
+            name="single-select"
+            label="Select a Option"
+            options={options}
+            value={dropdownValue}
+            onChange={handleDropdownChange}
+          />
+        </ColorSectionWrapper>
       </Container>
     </ThemeProvider>
   );
