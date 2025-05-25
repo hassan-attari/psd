@@ -1,6 +1,9 @@
 import { createTheme } from '@mui/material';
 import { typographyStyleOverrides } from './typography';
 import palette from './palette';
+import { chipStyleOverrides } from './status';
+import { dropdownStyleOverrides } from './dropdown';
+import MuiButton from './button';
 
 export const theme = createTheme({
   palette: palette,
@@ -8,8 +11,9 @@ export const theme = createTheme({
     fontFamily: 'Roboto, sans-serif',
   },
   components: {
-    MuiTypography: {
-      styleOverrides: typographyStyleOverrides,
-    },
+    MuiTypography: typographyStyleOverrides,
+    MuiChip: chipStyleOverrides,
+    MuiButton: MuiButton,
+    ...dropdownStyleOverrides,
   },
 });
