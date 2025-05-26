@@ -30,7 +30,6 @@ const commonOptions = [
   { value: 'option3', label: 'Option 3', disabled: true },
 ];
 
-// Base Template
 const Template: Story = {
   render: (args) => (
     <ThemeProvider theme={theme}>
