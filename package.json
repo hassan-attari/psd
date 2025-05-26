@@ -81,15 +81,15 @@
     "kit"
   ],
   "lint-staged": {
-    "{kit,apps}/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+    "{kit,apps}/src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix --cache",
       "prettier --write"
     ],
     "{kit,apps}/**/*.{json,md,yml,yaml,css,scss,html}": [
       "prettier --write"
     ],
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+      "eslint --fix --cache",
       "prettier --write"
     ],
     "*.{json,md,yml,yaml,css,scss,html}": [

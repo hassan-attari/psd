@@ -21,5 +21,10 @@
       "esModuleInterop": true,
       "allowSyntheticDefaultImports": true
     }
+  },
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true
   }
 }
