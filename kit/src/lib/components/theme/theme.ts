@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material';
 import { typographyStyleOverrides } from './typography';
 import palette from './palette';
 import { chipStyleOverrides } from './status';
+import { checkboxStyleOverrides } from './chekbox';
 
 export const theme = createTheme({
   palette: palette,
@@ -11,5 +12,7 @@ export const theme = createTheme({
   components: {
     MuiTypography: typographyStyleOverrides,
     MuiChip: chipStyleOverrides,
+    MuiCheckbox: checkboxStyleOverrides,
+    MuiRadio: checkboxStyleOverrides,
   },
 });
