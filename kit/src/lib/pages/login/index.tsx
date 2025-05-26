@@ -13,6 +13,7 @@ import {
 import { useState } from 'react';
 import { Loading } from '../../components/loading';
 import { Button } from '../../components/button';
+console.log("khferhdsfjs");
 
 const typographyClasses = [
   'text-xs-regular',
