@@ -6,7 +6,7 @@ import { Chip, Typography, Switch } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { Dashboard, LocalDining } from '@mui/icons-material';
-
+console.log("nasi",)
 const typographyClasses = [
   'text-xs-regular',
   'text-xs-medium',
