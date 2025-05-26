@@ -1,9 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button, Loading, Dropdown } from '../../components';
-import { Chip, Typography, Switch } from '@mui/material';
+import { Button, Dropdown, Loading } from '../../components';
+import { Chip, Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import { useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
@@ -90,7 +96,6 @@ const ColorSectionWrapper = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
 `;
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const options: DropdownOption<number>[] = [
   { value: 10, label: 'option 1' },
@@ -220,17 +225,52 @@ export const Login = () => {
             typeof colors === 'object' ? renderColorSet(label, colors) : null
           )}
         </ColorSectionWrapper>
-        <Chip label="success" color="error" />
-        <Chip label="success" color="warning" />
-        <Chip label="success" color="default" />
-        <Chip label="success" color="secondary" />
-        <Chip label="success" color="primary" />
-        <Switch {...label} size="medium" />
-        <Switch {...label} size="small" />
-        <Switch {...label} disabled size="medium" />
-        <Switch {...label} disabled size="small" />
-        <Switch {...label} disabled size="medium" defaultChecked />
-        <Switch {...label} disabled size="small" defaultChecked />
+
+        <Section>
+          <Chip label="success" color="error" />
+          <Chip label="success" color="warning" />
+          <Chip label="success" color="default" />
+          <Chip label="success" color="secondary" />
+          <Chip label="success" color="primary" />
+        </Section>
+
+        <Section>
+          <FormControl>
+            <FormLabel id="demo-row-radio-buttons-group-label">
+              Gender
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel
+                value="female"
+                control={<Radio />}
+                label="Female"
+              />
+              <FormControlLabel value="male" control={<Radio />} label="Male" />
+              <FormControlLabel
+                value="other"
+                control={<Radio />}
+                label="Other"
+                disabled
+              />
+              <FormControlLabel
+                value="disabled"
+                disabled
+                control={<Radio checked />}
+                label="other"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Section>
+
+        <Section>
+          <Checkbox defaultChecked />
+          <Checkbox />
+          <Checkbox disabled />
+          <Checkbox disabled checked />
+        </Section>
         <ColorSectionWrapper>
           <Dropdown
             name="single-select"

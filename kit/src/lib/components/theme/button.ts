@@ -16,7 +16,6 @@ const MuiButton = {
     ...bounceKeyframes,
 
     root: {
-      
       '&.Mui-loading': {
         display: 'flex',
         justifyContent: 'center',
@@ -98,4 +97,3 @@ const MuiButton = {
 };
 
 export default MuiButton;
-

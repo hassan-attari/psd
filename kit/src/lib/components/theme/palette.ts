@@ -92,7 +92,7 @@ const palette = {
     contrast: '#ffffff',
   },
   custom: {
-    loader: '#4000ff', 
+    loader: '#4000ff',
   },
 };
 

@@ -67,7 +67,8 @@ export const ModalContent = styled(Box)`
 
 export const StyledModal = styled(Modal)`
   .MuiBackdrop-root {
-    background-color: ${({ theme }) => `${theme.palette.white.main}E9`}; /* 90% opacity */
+    background-color: ${({ theme }) =>
+      `${theme.palette.white.main}E9`}; /* 90% opacity */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* برای Safari */
   }

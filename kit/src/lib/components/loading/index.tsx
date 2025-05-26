@@ -24,7 +24,11 @@ export const Loading: React.FC<LoadingProps> = ({ open }) => {
     >
       <ModalContent>
         <DotsWrapper>
-          <LoadingDot color={theme.palette.custom.loader} width={10} height={10} />
+          <LoadingDot
+            color={theme.palette.custom.loader}
+            width={10}
+            height={10}
+          />
         </DotsWrapper>
       </ModalContent>
     </StyledModal>

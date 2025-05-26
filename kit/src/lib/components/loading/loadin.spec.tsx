@@ -18,7 +18,9 @@ describe('Loading Component', () => {
 
 describe('LoadingDot Component', () => {
   test('renders 5 dots with specified color and size', () => {
-    const { container } = render(<LoadingDot color="#4000ff" width={10} height={10} />);
+    const { container } = render(
+      <LoadingDot color="#4000ff" width={10} height={10} />
+    );
     const dots = container.querySelectorAll('div');
     expect(dots.length).toBe(5);
     dots.forEach((dot) => {

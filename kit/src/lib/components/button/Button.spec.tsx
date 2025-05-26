@@ -34,7 +34,11 @@ describe('LoadingButton Component', () => {
   });
 
   test('respects passed variant and color props', () => {
-    render(<Button variant="outlined" color="secondary">Custom</Button>);
+    render(
+      <Button variant="outlined" color="secondary">
+        Custom
+      </Button>
+    );
     const button = screen.getByRole('button');
     expect(button).toHaveTextContent('Custom');
 
