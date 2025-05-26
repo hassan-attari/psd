@@ -122,7 +122,7 @@ export const Login = () => {
     'warning',
   ] as const;
   const sizes = ['small', 'medium', 'large'] as const;
-
+  const [loading, setLoading] = useState(false);
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
       <SectionTitle>{label}</SectionTitle>
@@ -146,7 +146,9 @@ export const Login = () => {
     <ThemeProvider theme={theme}>
       <Container>
         <Title>Login Page</Title>
-
+        <Button  onClick={() => setLoading(!loading)}>
+          Run loading
+        </Button>
         <Title>Button Style Guide</Title>
         {colors.map((color) => (
           <ButtonGroup key={color}>
@@ -212,12 +214,19 @@ export const Login = () => {
           )}
         </ColorSectionWrapper>
       </Container>
-      <Loading open={true} />
-      <Button loading={true} size="small" />
-      <Button loading={true} size="medium" />
-      <Button loading={true} size="large" color="secondary" />
-      <Button loading={true} />
-
+      <Loading open={loading} />
+      <Button loading={false} size="small">
+        save
+      </Button>
+      <Button loading={true} size="medium">
+        save
+      </Button>
+      <Button loading={true} size="large" color="secondary">
+        save
+      </Button>
+      <Button  size="large" color="secondary">
+        save
+      </Button>
     </ThemeProvider>
   );
 };

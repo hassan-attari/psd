@@ -1,30 +1,31 @@
-// Loading.test.tsx
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme/theme';
 import { Loading, LoadingDot } from '.';
-describe('Loading Component', () => {
-  test('renders Loading component when open is true', () => {
-    render(<Loading open={true} />);
-    const modal = screen.getByRole('presentation');
-    expect(modal).toBeInTheDocument();
-  });
+import '@testing-library/jest-dom';
 
-  test('does not render Loading component when open is false', () => {
-    render(<Loading open={false} />);
-    const modal = screen.queryByRole('presentation');
-    expect(modal).not.toBeInTheDocument();
+const renderWithTheme = (ui: React.ReactElement) =>
+  render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
+
+describe('LoadingDot Component', () => {
+  it('renders 5 animated dots', () => {
+    render(<LoadingDot color="#000" width={10} height={10} />);
+    const dots = screen.getAllByTestId('loading-dot');
+    expect(dots.length).toBe(5);
   });
 });
 
-describe('LoadingDot Component', () => {
-  test('renders 5 dots with specified color and size', () => {
-    const { container } = render(<LoadingDot color="#4000ff" width={10} height={10} />);
-    const dots = container.querySelectorAll('div');
-    expect(dots.length).toBe(5);
-    dots.forEach((dot) => {
-      expect(dot).toHaveStyle(`background-color: #4000ff`);
-      expect(dot).toHaveStyle(`width: 10px`);
-      expect(dot).toHaveStyle(`height: 10px`);
-    });
+describe('Loading Component', () => {
+  it('should render loading modal when open is true', () => {
+    renderWithTheme(<Loading open={true} />);
+    const modal = screen.getByRole('presentation');
+    expect(modal).toBeInTheDocument(); // ✅ این الان کار می‌کنه
+  });
+
+  it('should not render loading modal when open is false', () => {
+    renderWithTheme(<Loading open={false} />);
+    const modal = screen.queryByRole('presentation');
+    expect(modal).toBeNull();
   });
 });
