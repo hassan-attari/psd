@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button, Loading } from '../../components';
+import { Button, Loading, Dropdown } from '../../components';
 import { Chip, Typography, Switch } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
 import CustomPagination from '../../components/pagination/index';
+import { useState } from 'react';
+import { SelectChangeEvent } from '@mui/material/Select';
+import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { Dashboard, LocalDining } from '@mui/icons-material';
 
@@ -91,6 +93,13 @@ const ColorSectionWrapper = styled.div`
 `;
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
+const options: DropdownOption<number>[] = [
+  { value: 10, label: 'option 1' },
+  { value: 20, label: 'option 2' },
+  { value: 30, label: 'option 3', disabled: true },
+  { value: 40, label: 'option 4' },
+];
+
 const ButtonRow = styled.div`
   display: flex;
   gap: 1rem;
@@ -140,6 +149,11 @@ export const Login = () => {
       </ColorGrid>
     </Section>
   );
+
+  const [dropdownValue, setDropdownValue] = useState<number | ''>('');
+  const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
+    setDropdownValue(event.target.value as number | '');
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -221,7 +235,7 @@ export const Login = () => {
         <Switch {...label} disabled size="small" />
         <Switch {...label} disabled size="medium" defaultChecked />
         <Switch {...label} disabled size="small" defaultChecked />
-        
+
         <CustomPagination
           totalItems={totalItems}
           page={page}
@@ -232,6 +246,15 @@ export const Login = () => {
             setPage(1);
           }}
         />
+        <ColorSectionWrapper>
+          <Dropdown
+            name="single-select"
+            label="Select a Option"
+            options={options}
+            value={dropdownValue}
+            onChange={handleDropdownChange}
+          />
+        </ColorSectionWrapper>
       </Container>
       <Loading open={false} />
       <Button loading={true} size="small" />

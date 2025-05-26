@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "composite": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
@@ -19,7 +20,7 @@
     "target": "es2022",
     "customConditions": ["development"],
     "paths": {
-      "@dashboard/kit": ["kit/src/index.ts"]
+      "@dashboard/kit": ["kit/src/lib/components/index.ts"]
     }
   }
 }

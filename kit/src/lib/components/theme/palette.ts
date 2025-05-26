@@ -10,7 +10,6 @@ const palette = {
     darkHover: '#285092',
     darkActive: '#1e3c6e',
     darker: '#1e3c6e',
-
   },
   secondary: {
     light: '#e6f6f4',
@@ -93,7 +92,7 @@ const palette = {
     contrast: '#ffffff',
   },
   custom: {
-    loader: '#4000ff', 
+    loader: '#4000ff',
   },
 };
 

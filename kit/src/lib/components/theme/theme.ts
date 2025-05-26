@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material';
 import { typographyStyleOverrides } from './typography';
 import palette from './palette';
 import { chipStyleOverrides } from './status';
+import { dropdownStyleOverrides } from './dropdown';
 import MuiButton from './button';
 
 export const theme = createTheme({
@@ -13,5 +14,6 @@ export const theme = createTheme({
     MuiTypography: typographyStyleOverrides,
     MuiChip: chipStyleOverrides,
     MuiButton: MuiButton,
+    ...dropdownStyleOverrides,
   },
 });
