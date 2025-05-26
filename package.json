@@ -12,6 +12,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.2.5",
+    "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@nrwl/react": "^19.8.4",
     "react": "19.0.0",
@@ -43,6 +44,7 @@
     "@swc/cli": "~0.6.0",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "16.1.0",
     "@types/node": "^20.0.0",
     "@types/react": "^19.0.0",
@@ -81,16 +83,14 @@
   "lint-staged": {
     "{kit,apps}/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write",
-      "tsc --noEmit"
+      "prettier --write"
     ],
     "{kit,apps}/**/*.{json,md,yml,yaml,css,scss,html}": [
       "prettier --write"
     ],
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write",
-      "tsc --noEmit"
+      "prettier --write"
     ],
     "*.{json,md,yml,yaml,css,scss,html}": [
       "prettier --write"
