@@ -19,14 +19,12 @@
       "moduleResolution": "node10",
       "customConditions": null,
       "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "jsx": "react-jsx"
+      "allowSyntheticDefaultImports": true
     }
   },
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "esModuleInterop": true
-  },
-  "include": ["**/*.ts", "**/*.tsx"]
+  }
 }

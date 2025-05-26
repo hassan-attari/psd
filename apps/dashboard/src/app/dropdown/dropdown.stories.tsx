@@ -21,8 +21,6 @@ const meta: Meta<typeof Dropdown> = {
   },
 };
 
-// dsaf
-
 export default meta;
 type Story = StoryObj<typeof Dropdown>;
 
