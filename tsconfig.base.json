@@ -20,7 +20,8 @@
     "target": "es2022",
     "customConditions": ["development"],
     "paths": {
-      "@dashboard/kit": ["kit/src/lib/components/index.ts"]
+      "@dashboard/kit": ["kit/src/lib/components/index.ts"],
+      "@dashboard/page": ["kit/src/lib/pages/index.ts"]
     }
   }
 }
