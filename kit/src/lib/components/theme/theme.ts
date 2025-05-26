@@ -3,6 +3,7 @@ import { typographyStyleOverrides } from './typography';
 import palette from './palette';
 import { chipStyleOverrides } from './status';
 import { checkboxStyleOverrides } from './chekbox';
+import { dropdownStyleOverrides } from './dropdown';
 
 export const theme = createTheme({
   palette: palette,
@@ -14,5 +15,6 @@ export const theme = createTheme({
     MuiChip: chipStyleOverrides,
     MuiCheckbox: checkboxStyleOverrides,
     MuiRadio: checkboxStyleOverrides,
+    ...dropdownStyleOverrides,
   },
 });

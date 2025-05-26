@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { ThemeProvider, CacheProvider } from '@dashboard/kit';
-import { Login } from '@dashboard/page';
+import { ThemeProvider, CacheProvider, Login } from '@dashboard/kit';
 
 export function App() {
   return (
