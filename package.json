@@ -83,14 +83,16 @@
   "lint-staged": {
     "{kit,apps}/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "tsc --noEmit"
     ],
     "{kit,apps}/**/*.{json,md,yml,yaml,css,scss,html}": [
       "prettier --write"
     ],
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "tsc --noEmit"
     ],
     "*.{json,md,yml,yaml,css,scss,html}": [
       "prettier --write"
