@@ -2,7 +2,7 @@
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
 import { Button, Dropdown, Loading } from '../../components';
-import { Box, Chip, Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
