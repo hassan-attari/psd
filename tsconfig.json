@@ -19,7 +19,9 @@
       "moduleResolution": "node10",
       "customConditions": null,
       "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "jsx": "react-jsx"
     }
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }
