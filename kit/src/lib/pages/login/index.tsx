@@ -126,7 +126,6 @@ export const Login = () => {
     'warning',
   ] as const;
   const sizes = ['small', 'medium', 'large'] as const;
-  //a
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
