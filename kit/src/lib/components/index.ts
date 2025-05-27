@@ -5,3 +5,4 @@ export * from './button';
 export * from './dropdown';
 export * from './loading';
 export * from './datepicker';
+export * from './loading';

@@ -1,8 +1,9 @@
-export interface LoadingProps {
-  open: boolean;
-}
 export interface LoadingDotProps {
-  color?: string;
+  color: string;
   width?: number;
   height?: number;
+}
+
+export interface LoadingProps {
+  open: boolean;
 }

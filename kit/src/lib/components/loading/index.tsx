@@ -1,7 +1,8 @@
+// loading.tsx
 import React from 'react';
 import { Dot, DotsWrapper, ModalContent, StyledModal } from './loading.styles';
-import { LoadingDotProps, LoadingProps } from './loading';
 import { theme } from '../theme/theme';
+import { LoadingDotProps, LoadingProps } from './loading';
 
 export const LoadingDot: React.FC<LoadingDotProps> = ({
   color,
@@ -10,7 +11,14 @@ export const LoadingDot: React.FC<LoadingDotProps> = ({
 }) => (
   <>
     {[0, 1, 2, 3, 4].map((_, i) => (
-      <Dot key={i} index={i} color={color} width={width} height={height} />
+      <Dot
+        key={i}
+        index={i}
+        color={color}
+        width={width}
+        height={height}
+        data-testid="loading-dot"
+      />
     ))}
   </>
 );

@@ -19,8 +19,13 @@ import { useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { Dashboard, LocalDining } from '@mui/icons-material';
 import { subYears, addYears } from 'date-fns';
+
+import {
+  Dashboard,
+  LocalDining,
+  SwapVerticalCircleOutlined,
+} from '@mui/icons-material';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -141,6 +146,7 @@ export const Login = () => {
   const [calendarType, setCalendarType] = useState<'gregorian' | 'jalali'>(
     'gregorian'
   );
+  const [loading, setLoading] = useState(false);
   const today = new Date();
   const minDate = subYears(today, 1); // 1 year ago
   const maxDate = addYears(today, 1); // 1 year from now
@@ -182,7 +188,7 @@ export const Login = () => {
     <ThemeProvider theme={theme}>
       <Container>
         <Title>Login Page</Title>
-
+        <Button onClick={() => setLoading(!loading)}>Run loading</Button>
         <Title>Button Style Guide</Title>
         {colors.map((color) => (
           <ButtonGroup key={color}>
@@ -303,12 +309,6 @@ export const Login = () => {
           />
         </ColorSectionWrapper>
       </Container>
-      <Loading open={false} />
-      <Button loading={true} size="small" />
-      <Button loading={true} size="medium" />
-      <Button loading={true} size="large" color="secondary" />
-      <Button loading={true} />
-
       <h2>Date Picker with Calendar Switch</h2>
       <ToggleButtonGroup
         value={calendarType}
@@ -333,6 +333,19 @@ export const Login = () => {
           calendarType={calendarType}
         />
       </ColorSectionWrapper>
+      <Loading open={loading} />
+      <Button loading={false} size="small">
+        save
+      </Button>
+      <Button loading={true} size="medium">
+        save
+      </Button>
+      <Button loading={true} size="large" color="secondary">
+        save
+      </Button>
+      <Button size="large" color="secondary">
+        save
+      </Button>
     </ThemeProvider>
   );
 };
