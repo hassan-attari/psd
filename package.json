@@ -9,13 +9,10 @@
   },
   "private": true,
   "dependencies": {
-    "@date-io/date-fns": "^3.2.1",
-    "@date-io/date-fns-jalali": "^3.2.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.2.5",
     "@mui/icons-material": "^7.1.0",
-    "@mui/lab": "^7.0.0-beta.12",
     "@mui/material": "^7.1.0",
     "@mui/x-date-pickers": "^8.4.0",
     "@nrwl/react": "^19.8.4",
@@ -88,14 +85,14 @@
   ],
   "lint-staged": {
     "{kit,apps}/src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix --cache",
+      "eslint --fix",
       "prettier --write"
     ],
     "{kit,apps}/**/*.{json,md,yml,yaml,css,scss,html}": [
       "prettier --write"
     ],
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix --cache",
+      "eslint --fix",
       "prettier --write"
     ],
     "*.{json,md,yml,yaml,css,scss,html}": [

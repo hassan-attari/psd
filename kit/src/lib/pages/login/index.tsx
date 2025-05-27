@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
+import { Button, Loading, Dropdown, DatePicker } from '../../components';
 import {
-  Button,
-  Loading,
-  Dropdown,
-  DatePickerWithCalendarSwitch,
-} from '../../components';
-import { Chip, Typography, Switch } from '@mui/material';
+  Chip,
+  Typography,
+  ToggleButtonGroup,
+  ToggleButton,
+} from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -20,8 +20,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { Dashboard, LocalDining } from '@mui/icons-material';
-import { format, subYears, addYears } from 'date-fns';
-import { faIR } from 'date-fns-jalali/locale';
+import { subYears, addYears } from 'date-fns';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -139,12 +138,21 @@ export const Login = () => {
   ] as const;
   const sizes = ['small', 'medium', 'large'] as const;
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [calendarType, setCalendarType] = useState<'gregorian' | 'jalali'>(
+    'gregorian'
+  );
   const today = new Date();
   const minDate = subYears(today, 1); // 1 year ago
   const maxDate = addYears(today, 1); // 1 year from now
-  console.log('selectedDate', selectedDate);
 
-  console.log(format(selectedDate, 'yyyy/MM/dd', { locale: faIR }), 'locale');
+  const handleCalendarChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newCalendarType: 'gregorian' | 'jalali' | null
+  ) => {
+    if (newCalendarType !== null) {
+      setCalendarType(newCalendarType);
+    }
+  };
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
@@ -301,15 +309,30 @@ export const Login = () => {
       <Button loading={true} size="large" color="secondary" />
       <Button loading={true} />
 
-      <div style={{ padding: '20px', maxWidth: '400px' }}>
-        <h2>Date Picker with Calendar Switch</h2>
-        <DatePickerWithCalendarSwitch
+      <h2>Date Picker with Calendar Switch</h2>
+      <ToggleButtonGroup
+        value={calendarType}
+        exclusive
+        onChange={handleCalendarChange}
+        aria-label="calendar type"
+        size="small"
+      >
+        <ToggleButton value="gregorian" aria-label="gregorian">
+          Gregorian
+        </ToggleButton>
+        <ToggleButton value="jalali" aria-label="jalali">
+          Jalali
+        </ToggleButton>
+      </ToggleButtonGroup>
+      <ColorSectionWrapper>
+        <DatePicker
           value={selectedDate}
           onChange={setSelectedDate}
           minDate={minDate}
           maxDate={maxDate}
+          calendarType={calendarType}
         />
-      </div>
+      </ColorSectionWrapper>
     </ThemeProvider>
   );
 };
