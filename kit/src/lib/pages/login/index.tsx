@@ -1,8 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button, Dropdown, Loading } from '../../components';
-import { Chip, Typography } from '@mui/material';
+import { Button, Loading, Dropdown, DatePicker } from '../../components';
+import {
+  Chip,
+  Typography,
+  ToggleButtonGroup,
+  ToggleButton,
+} from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -15,6 +20,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { Dashboard, LocalDining } from '@mui/icons-material';
+import { subYears, addYears } from 'date-fns';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -131,6 +137,22 @@ export const Login = () => {
     'warning',
   ] as const;
   const sizes = ['small', 'medium', 'large'] as const;
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [calendarType, setCalendarType] = useState<'gregorian' | 'jalali'>(
+    'gregorian'
+  );
+  const today = new Date();
+  const minDate = subYears(today, 1); // 1 year ago
+  const maxDate = addYears(today, 1); // 1 year from now
+
+  const handleCalendarChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newCalendarType: 'gregorian' | 'jalali' | null
+  ) => {
+    if (newCalendarType !== null) {
+      setCalendarType(newCalendarType);
+    }
+  };
 
   const renderColorSet = (label: string, colors: Record<string, unknown>) => (
     <Section key={label}>
@@ -286,6 +308,31 @@ export const Login = () => {
       <Button loading={true} size="medium" />
       <Button loading={true} size="large" color="secondary" />
       <Button loading={true} />
+
+      <h2>Date Picker with Calendar Switch</h2>
+      <ToggleButtonGroup
+        value={calendarType}
+        exclusive
+        onChange={handleCalendarChange}
+        aria-label="calendar type"
+        size="small"
+      >
+        <ToggleButton value="gregorian" aria-label="gregorian">
+          Gregorian
+        </ToggleButton>
+        <ToggleButton value="jalali" aria-label="jalali">
+          Jalali
+        </ToggleButton>
+      </ToggleButtonGroup>
+      <ColorSectionWrapper>
+        <DatePicker
+          value={selectedDate}
+          onChange={setSelectedDate}
+          minDate={minDate}
+          maxDate={maxDate}
+          calendarType={calendarType}
+        />
+      </ColorSectionWrapper>
     </ThemeProvider>
   );
 };

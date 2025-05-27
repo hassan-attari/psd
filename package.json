@@ -14,7 +14,10 @@
     "@fontsource/roboto": "^5.2.5",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
+    "@mui/x-date-pickers": "^8.4.0",
     "@nrwl/react": "^19.8.4",
+    "date-fns": "^4.1.0",
+    "date-fns-jalali": "^3.2.0-0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router-dom": "6.29.0"
@@ -82,14 +85,14 @@
   ],
   "lint-staged": {
     "{kit,apps}/src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix --cache",
+      "eslint --fix",
       "prettier --write"
     ],
     "{kit,apps}/**/*.{json,md,yml,yaml,css,scss,html}": [
       "prettier --write"
     ],
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix --cache",
+      "eslint --fix",
       "prettier --write"
     ],
     "*.{json,md,yml,yaml,css,scss,html}": [

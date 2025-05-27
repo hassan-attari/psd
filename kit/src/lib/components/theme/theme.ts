@@ -4,6 +4,8 @@ import palette from './palette';
 import { chipStyleOverrides } from './status';
 import { checkboxStyleOverrides } from './chekbox';
 import { dropdownStyleOverrides } from './dropdown';
+import { datepickerStyleOverrides } from './datepicker';
+import { formControlStyleOverrides } from './form-control';
 
 export const theme = createTheme({
   palette: palette,
@@ -16,5 +18,7 @@ export const theme = createTheme({
     MuiCheckbox: checkboxStyleOverrides,
     MuiRadio: checkboxStyleOverrides,
     ...dropdownStyleOverrides,
+    MuiFormControl: formControlStyleOverrides,
+    MuiDayCalendar: datepickerStyleOverrides,
   },
 });

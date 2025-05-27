@@ -4,3 +4,4 @@ export * from './cache-provider';
 export * from './button';
 export * from './dropdown';
 export * from './loading';
+export * from './datepicker';
