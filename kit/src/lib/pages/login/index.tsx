@@ -15,7 +15,6 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { Dashboard, LocalDining } from '@mui/icons-material';
-import { Margin } from 'node_modules/@mui/icons-material';
 
 const typographyClasses = [
   'text-xs-regular',
