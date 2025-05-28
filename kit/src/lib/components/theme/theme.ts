@@ -11,13 +11,12 @@ export const theme = createTheme({
   typography: {
     fontFamily: 'Roboto, sans-serif',
   },
-  shadows: customShadows as any,
+  shadows: customShadows,
   components: {
     MuiTypography: typographyStyleOverrides,
     MuiChip: chipStyleOverrides,
     MuiCheckbox: checkboxStyleOverrides,
     MuiRadio: checkboxStyleOverrides,
-
     ...dropdownStyleOverrides,
   },
 });
