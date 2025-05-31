@@ -7,7 +7,7 @@
     "emitDeclarationOnly": true,
     "importHelpers": true,
     "isolatedModules": true,
-    "lib": ["es2022"],
+    "lib": ["es2022", "dom"],
     "jsx": "react-jsx",
     "module": "esnext",
     "moduleResolution": "bundler",

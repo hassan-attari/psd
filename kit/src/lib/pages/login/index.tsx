@@ -26,6 +26,7 @@ import {
   LocalDining,
   SwapVerticalCircleOutlined,
 } from '@mui/icons-material';
+import FileUploadModal from '../../components/upload';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -183,7 +184,12 @@ export const Login = () => {
   const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
     setDropdownValue(event.target.value as number | '');
   };
+  const [modalOpen, setModalOpen] = useState(false);
 
+  const handleFileUpload = (file: File) => {
+    console.log('File uploaded:', file.name);
+    // Handle the actual file upload here
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -308,44 +314,56 @@ export const Login = () => {
             onChange={handleDropdownChange}
           />
         </ColorSectionWrapper>
-      </Container>
-      <h2>Date Picker with Calendar Switch</h2>
-      <ToggleButtonGroup
-        value={calendarType}
-        exclusive
-        onChange={handleCalendarChange}
-        aria-label="calendar type"
-        size="small"
-      >
-        <ToggleButton value="gregorian" aria-label="gregorian">
-          Gregorian
-        </ToggleButton>
-        <ToggleButton value="jalali" aria-label="jalali">
-          Jalali
-        </ToggleButton>
-      </ToggleButtonGroup>
-      <ColorSectionWrapper>
-        <DatePicker
-          value={selectedDate}
-          onChange={setSelectedDate}
-          minDate={minDate}
-          maxDate={maxDate}
-          calendarType={calendarType}
+        <h2>Date Picker with Calendar Switch</h2>
+        <ToggleButtonGroup
+          value={calendarType}
+          exclusive
+          onChange={handleCalendarChange}
+          aria-label="calendar type"
+          size="small"
+        >
+          <ToggleButton value="gregorian" aria-label="gregorian">
+            Gregorian
+          </ToggleButton>
+          <ToggleButton value="jalali" aria-label="jalali">
+            Jalali
+          </ToggleButton>
+        </ToggleButtonGroup>
+        <ColorSectionWrapper>
+          <DatePicker
+            value={selectedDate}
+            onChange={setSelectedDate}
+            minDate={minDate}
+            maxDate={maxDate}
+            calendarType={calendarType}
+          />
+        </ColorSectionWrapper>
+        <Loading open={loading} />
+        <Button loading={false} size="small">
+          save
+        </Button>
+        <Button loading={true} size="medium">
+          save
+        </Button>
+        <Button loading={true} size="large" color="secondary">
+          save
+        </Button>
+        <Button size="large" color="secondary">
+          save
+        </Button>
+
+        <Button variant="contained" onClick={() => setModalOpen(true)}>
+          Open Upload
+        </Button>
+
+        <FileUploadModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onFileUpload={handleFileUpload}
+          accept=".pdf,.doc,.docx" // Example accept types
+          maxSize={5242880} // 5MB
         />
-      </ColorSectionWrapper>
-      <Loading open={loading} />
-      <Button loading={false} size="small">
-        save
-      </Button>
-      <Button loading={true} size="medium">
-        save
-      </Button>
-      <Button loading={true} size="large" color="secondary">
-        save
-      </Button>
-      <Button size="large" color="secondary">
-        save
-      </Button>
+      </Container>
     </ThemeProvider>
   );
 };
