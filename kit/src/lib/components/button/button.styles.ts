@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material';
 export const StyledButton = styled(Button)`
   position: relative;
   overflow: hidden;
+  border: 1px solid #f0f0f0;
 `;
 
 export const HiddenContent = styled(Box)`

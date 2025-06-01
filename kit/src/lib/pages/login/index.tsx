@@ -7,6 +7,7 @@ import {
   Typography,
   ToggleButtonGroup,
   ToggleButton,
+  Box,
 } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
@@ -26,6 +27,7 @@ import {
   LocalDining,
   SwapVerticalCircleOutlined,
 } from '@mui/icons-material';
+import { Header } from '../../components/header';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -188,6 +190,9 @@ export const Login = () => {
     <ThemeProvider theme={theme}>
       <Container>
         <Title>Login Page</Title>
+        <Box sx={{ margin: '2rem 0' }}>
+          <Header title="Suggestions" />
+        </Box>
         <Button onClick={() => setLoading(!loading)}>Run loading</Button>
         <Title>Button Style Guide</Title>
         {colors.map((color) => (
