@@ -6,6 +6,7 @@ import { checkboxStyleOverrides } from './chekbox';
 import { dropdownStyleOverrides } from './dropdown';
 import { datepickerStyleOverrides } from './datepicker';
 import { formControlStyleOverrides } from './form-control';
+import { selectStyleOverrides } from './select';
 
 export const theme = createTheme({
   palette: palette,
@@ -20,5 +21,6 @@ export const theme = createTheme({
     ...dropdownStyleOverrides,
     MuiFormControl: formControlStyleOverrides,
     MuiDayCalendar: datepickerStyleOverrides,
+    MuiSelect: selectStyleOverrides,
   },
 });
