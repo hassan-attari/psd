@@ -352,17 +352,18 @@ export const Login = () => {
           save
         </Button>
 
-        <Button variant="contained" onClick={() => setModalOpen(true)}>
-          Open Upload
-        </Button>
-
-        <FileUploadModal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onFileUpload={handleFileUpload}
-          accept=".pdf,.doc,.docx" // Example accept types
-          maxSize={5242880} // 5MB
-        />
+        <ColorSectionWrapper>
+          <Button variant="contained" onClick={() => setModalOpen(true)}>
+            Open Upload
+          </Button>
+          <FileUploadModal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onFileUpload={handleFileUpload}
+            accept=".pdf,.doc,.docx" // Example accept types
+            maxSize={5242880} // 5MB
+          />
+        </ColorSectionWrapper>
       </Container>
     </ThemeProvider>
   );

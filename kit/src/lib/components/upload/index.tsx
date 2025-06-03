@@ -1,10 +1,7 @@
 import React, { useState, useRef, useCallback, ChangeEvent } from 'react';
 import {
-  Box,
   Button,
   Typography,
-  Paper,
-  LinearProgress,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -13,6 +10,12 @@ import {
   Stack,
 } from '@mui/material';
 import { CloudUpload, Close, Delete } from '@mui/icons-material';
+import {
+  StyledPaper,
+  StyledUploadAreaContent,
+  StyledProgressContainer,
+  StyledProgressText,
+} from './upload.styles';
 
 interface FileUploadModalProps {
   open: boolean;
@@ -88,11 +91,9 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
     setIsUploading(true);
     setUploadProgress(0);
 
-    // Simulate progress (replace with actual upload progress in your implementation)
     const interval = setInterval(() => {
       setUploadProgress((prev) => {
         if (prev >= 90) {
-          // Stop at 90% to wait for actual completion
           clearInterval(interval);
           return prev;
         }
@@ -133,7 +134,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
       <DialogTitle>
         <Stack
           direction="row"
@@ -147,7 +148,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
         </Stack>
       </DialogTitle>
       <DialogContent>
-        <Box sx={{ mt: 2 }}>
+        <StyledUploadAreaContent>
           <input
             type="file"
             ref={fileInputRef}
@@ -157,17 +158,9 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
             disabled={isUploading}
           />
 
-          <Paper
-            variant="outlined"
-            sx={{
-              p: 4,
-              border: isDragging ? '2px dashed #1976d2' : '2px dashed #e0e0e0',
-              backgroundColor: isDragging
-                ? 'rgba(25, 118, 210, 0.04)'
-                : 'background.paper',
-              textAlign: 'center',
-              cursor: isUploading ? 'default' : 'pointer',
-            }}
+          <StyledPaper
+            isDragging={isDragging}
+            isUploading={isUploading}
             onClick={triggerFileInput}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -189,25 +182,16 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
                 {(file.size / 1048576).toFixed(2)}MB
               </Typography>
             )}
-          </Paper>
+          </StyledPaper>
 
           {isUploading && (
-            <Box sx={{ mt: 3 }}>
-              <LinearProgress
-                variant="determinate"
-                value={uploadProgress}
-                sx={{ height: 8, borderRadius: 4 }}
-              />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ mt: 1, textAlign: 'center' }}
-              >
+            <StyledProgressContainer>
+              <StyledProgressText variant="body2" color="text.secondary">
                 {uploadProgress}% uploaded
-              </Typography>
-            </Box>
+              </StyledProgressText>
+            </StyledProgressContainer>
           )}
-        </Box>
+        </StyledUploadAreaContent>
       </DialogContent>
       <DialogActions>
         <Button
