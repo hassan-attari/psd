@@ -1,7 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button, Loading, Dropdown, DatePicker } from '../../components';
+import {
+  Button,
+  Loading,
+  Dropdown,
+  DatePicker,
+  PerPage,
+} from '../../components';
 import {
   Chip,
   Typography,
@@ -27,7 +33,6 @@ import {
   SwapVerticalCircleOutlined,
 } from '@mui/icons-material';
 import { CustomPagination } from '../../components/pagination';
-import { PrePage } from '../../components/prepage';
 import { Box } from '@mui/material';
 
 const typographyClasses = [
@@ -343,7 +348,7 @@ export const Login = () => {
               onPageChange={setPage}
               onPerPageChange={handlePerPageChange}
             />
-            <PrePage
+            <PerPage
               perPage={perPage}
               perPageOptions={perPageOptions}
               onPerPageChange={handlePerPageChange}

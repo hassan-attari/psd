@@ -1,10 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { PrePage } from './index';
+import { PerPage } from './index';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../theme/theme';
 
-describe('PrePage Component', () => {
+describe('PerPage Component', () => {
   const defaultProps = {
     perPage: 10,
     perPageOptions: [10, 25, 50, 100],
@@ -14,7 +14,7 @@ describe('PrePage Component', () => {
   const renderWithTheme = (props = defaultProps) => {
     return render(
       <ThemeProvider theme={theme}>
-        <PrePage {...props} />
+        <PerPage {...props} />
       </ThemeProvider>
     );
   };

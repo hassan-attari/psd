@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PrePage } from '@dashboard/kit';
+import { PerPage } from '@dashboard/kit';
 
 const meta = {
-  title: 'Components/PrePage',
-  component: PrePage,
+  title: 'Components/PerPage',
+  component: PerPage,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof PrePage>;
+} satisfies Meta<typeof PerPage>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

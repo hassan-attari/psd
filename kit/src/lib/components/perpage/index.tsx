@@ -1,9 +1,9 @@
 import React from 'react';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { PrePageProps } from './prepage';
-import { Label, PrePageContainer } from './prepage.style';
+import { PerPageProps } from './perPage';
+import { Label, PerPageContainer } from './perPage.style';
 
-export const PrePage: React.FC<PrePageProps> = ({
+export const PerPage: React.FC<PerPageProps> = ({
   perPage,
   perPageOptions,
   onPerPageChange,
@@ -14,7 +14,7 @@ export const PrePage: React.FC<PrePageProps> = ({
   };
 
   return (
-    <PrePageContainer>
+    <PerPageContainer>
       <Label variant="body2">Show per page:</Label>
       <Select
         value={perPage.toString()}
@@ -27,6 +27,6 @@ export const PrePage: React.FC<PrePageProps> = ({
           </MenuItem>
         ))}
       </Select>
-    </PrePageContainer>
+    </PerPageContainer>
   );
 };

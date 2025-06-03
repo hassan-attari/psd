@@ -7,4 +7,4 @@ export * from './loading';
 export * from './datepicker';
 export * from './loading';
 export * from './pagination';
-export * from './prepage';
+export * from './perpage';
