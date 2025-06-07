@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, ChangeEvent } from 'react';
+import React, { useState, useRef, ChangeEvent } from 'react';
 import {
   Button,
   Typography,
@@ -8,6 +8,7 @@ import {
   DialogActions,
   IconButton,
   Stack,
+  LinearProgress,
 } from '@mui/material';
 import { CloudUpload, Close, Delete } from '@mui/icons-material';
 import {
@@ -15,6 +16,10 @@ import {
   StyledUploadAreaContent,
   StyledProgressContainer,
   StyledProgressText,
+  StyledDialog,
+  StyledDialogContent,
+  StyledDialogActions,
+  StyledDialogTitle,
 } from './upload.styles';
 
 interface FileUploadModalProps {
@@ -38,6 +43,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -61,23 +67,39 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
 
     const droppedFiles = e.dataTransfer.files;
     if (droppedFiles.length > 0) {
-      handleFileSelection(droppedFiles[0]);
+      setFile(droppedFiles[0]);
     }
+  };
+
+  const simulateProgress = async () => {
+    setIsUploading(true);
+    setUploadProgress(0);
+    setIsComplete(false);
+
+    // Simulate progress in steps
+    for (let progress = 0; progress <= 100; progress += 10) {
+      await new Promise((resolve) => setTimeout(resolve, 30));
+      setUploadProgress(progress);
+    }
+
+    setIsUploading(false);
+    setIsComplete(true);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (isUploading) return;
-    if (e.target.files && e.target.files.length > 0) {
-      handleFileSelection(e.target.files[0]);
-    }
-  };
 
-  const handleFileSelection = (selectedFile: File) => {
-    if (selectedFile.size > maxSize) {
-      alert(`File is too large. Maximum size is ${maxSize / 1048576}MB.`);
-      return;
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
+
+      if (selectedFile.size > maxSize) {
+        alert(`File is too large. Maximum size is ${maxSize / 1048576}MB.`);
+        return;
+      }
+
+      setFile(selectedFile);
+      simulateProgress(); // Start progress simulation immediately
     }
-    setFile(selectedFile);
   };
 
   const triggerFileInput = () => {
@@ -85,39 +107,10 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
     fileInputRef.current?.click();
   };
 
-  const handleUpload = async () => {
-    if (!file) return;
-
-    setIsUploading(true);
-    setUploadProgress(0);
-
-    const interval = setInterval(() => {
-      setUploadProgress((prev) => {
-        if (prev >= 90) {
-          clearInterval(interval);
-          return prev;
-        }
-        return prev + 10;
-      });
-    }, 300);
-
-    try {
-      await onFileUpload(file);
-      setUploadProgress(100);
-      setTimeout(() => {
-        handleClose();
-      }, 500);
-    } catch (error) {
-      console.error('Upload failed:', error);
-      alert('Upload failed. Please try again.');
-    } finally {
-      clearInterval(interval);
-      setIsUploading(false);
-    }
-  };
-
   const handleRemoveFile = () => {
     setFile(null);
+    setUploadProgress(0);
+    setIsComplete(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -127,6 +120,7 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
     if (isUploading) return;
     setFile(null);
     setUploadProgress(0);
+    setIsComplete(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -134,27 +128,27 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
-      <DialogTitle>
+    <StyledDialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
+      <StyledDialogTitle>
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography variant="h6">{title}</Typography>
+          <Typography className="text-lg-medium">{title}</Typography>
           <IconButton onClick={handleClose} disabled={isUploading}>
             <Close />
           </IconButton>
         </Stack>
-      </DialogTitle>
-      <DialogContent>
+      </StyledDialogTitle>
+      <StyledDialogContent>
         <StyledUploadAreaContent>
           <input
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
             accept={accept !== '*' ? accept : undefined}
-            style={{ display: 'none' }}
+            hidden
             disabled={isUploading}
           />
 
@@ -168,54 +162,66 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
           >
             <CloudUpload
               fontSize="large"
-              color={isDragging ? 'primary' : 'action'}
+              color={isDragging ? 'primary' : 'secondary'}
             />
-            <Typography variant="body1" sx={{ mt: 1 }}>
-              {isDragging
-                ? 'Drop the file here'
-                : file
-                ? file.name
-                : 'Drag and drop here or choose a file to upload'}
+            <Typography variant="body1" width={'100%'}>
+              {isDragging ? (
+                'Drop the file here'
+              ) : file ? (
+                file.name
+              ) : (
+                <>
+                  Drag and drop here or{' '}
+                  <Typography component="span" color="secondary">
+                    choose a file
+                  </Typography>{' '}
+                  to upload
+                </>
+              )}
             </Typography>
             {file && (
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              <Typography variant="body2" color="text.secondary">
                 {(file.size / 1048576).toFixed(2)}MB
               </Typography>
             )}
           </StyledPaper>
 
-          {isUploading && (
+          {(isUploading || isComplete) && (
             <StyledProgressContainer>
+              <LinearProgress
+                variant="determinate"
+                value={uploadProgress}
+                color={'secondary'}
+                sx={{ height: 8, borderRadius: 4 }}
+              />
               <StyledProgressText variant="body2" color="text.secondary">
-                {uploadProgress}% uploaded
+                {isComplete
+                  ? 'File ready for upload!'
+                  : `${uploadProgress}% loading...`}
               </StyledProgressText>
             </StyledProgressContainer>
           )}
         </StyledUploadAreaContent>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={handleClose}
-          disabled={isUploading}
-          sx={{ minWidth: 100 }}
-        >
-          Cancel
-        </Button>
+      </StyledDialogContent>
+      <StyledDialogActions>
         {file && !isUploading && (
-          <IconButton onClick={handleRemoveFile} sx={{ mr: 'auto' }}>
+          <IconButton onClick={handleRemoveFile}>
             <Delete color="error" />
           </IconButton>
         )}
-        <Button
-          onClick={handleUpload}
-          disabled={!file || isUploading}
-          variant="contained"
-          sx={{ minWidth: 100 }}
-        >
-          {isUploading ? 'Uploading...' : 'Import file'}
+        <Button onClick={handleClose} variant="outlined" disabled={isUploading}>
+          Cancel
         </Button>
-      </DialogActions>
-    </Dialog>
+        <Button
+          onClick={triggerFileInput}
+          disabled={isUploading}
+          variant="contained"
+          color={'primary'}
+        >
+          {'Upload File'}
+        </Button>
+      </StyledDialogActions>
+    </StyledDialog>
   );
 };
 

@@ -1,10 +1,36 @@
 import styled from '@emotion/styled';
-import { Paper, LinearProgress, Typography } from '@mui/material';
+import {
+  Paper,
+  LinearProgress,
+  Typography,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+} from '@mui/material';
 
 interface StyledPaperProps {
   isDragging: boolean;
   isUploading: boolean;
 }
+
+export const StyledDialogTitle = styled(DialogTitle)(() => ({
+  padding: '0',
+}));
+export const StyledDialogContent = styled(DialogContent)(() => ({
+  padding: '0',
+}));
+
+export const StyledDialogActions = styled(DialogActions)(() => ({
+  padding: '1.25rem 0 0 0',
+}));
+
+export const StyledDialog = styled(Dialog)(() => ({
+  '& .MuiDialog-paper': {
+    borderRadius: '1.75rem',
+    padding: '1.25rem',
+  },
+}));
 
 export const StyledPaper = styled(Paper, {
   shouldForwardProp: (prop) => prop !== 'isDragging' && prop !== 'isUploading',
@@ -15,6 +41,11 @@ export const StyledPaper = styled(Paper, {
   border: 2px dashed ${({ theme }) => theme.palette.gray.normalHover};
   border-radius: 10px;
   box-shadow: none;
+  height: 126px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const StyledUploadAreaContent = styled.div`
@@ -23,6 +54,9 @@ export const StyledUploadAreaContent = styled.div`
 
 export const StyledProgressContainer = styled.div`
   margin-top: 24px;
+  background-color: ${({ theme }) => theme.palette.gray.lightHover};
+  border-radius: 10px;
+  padding: 7px 12px;
 `;
 
 export const StyledProgressText = styled(Typography)`
