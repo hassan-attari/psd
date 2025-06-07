@@ -14,5 +14,4 @@ export const customShadows = [
   `0px 18px 40px 0px ${applyAlpha(palette.black.main, 0.12)}`,
   `0px 22px 50px 0px ${applyAlpha(palette.black.main, 0.14)}`,
   `0px 26px 60px 0px ${applyAlpha(palette.black.main, 0.16)}`,
-  ...Array(18).fill('none'),
-] as Theme['shadows'];
+] as unknown as Theme['shadows'];
