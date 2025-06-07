@@ -1,7 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button, Loading, Dropdown, DatePicker } from '../../components';
+import {
+  Button,
+  Loading,
+  Dropdown,
+  DatePicker,
+  PerPage,
+} from '../../components';
 import {
   Chip,
   Typography,
@@ -26,6 +32,8 @@ import {
   LocalDining,
   SwapVerticalCircleOutlined,
 } from '@mui/icons-material';
+import { CustomPagination } from '../../components/pagination';
+import { Box } from '@mui/material';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -130,6 +138,14 @@ const ButtonLabel = styled.div`
   margin-bottom: 0.5rem;
 `;
 
+const PaginationWrapper = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-items: center;
+  margin-top: 1rem;
+`;
+
 export const Login = () => {
   const theme = useTheme();
   const variants = ['outlined', 'contained'] as const;
@@ -179,9 +195,19 @@ export const Login = () => {
     </Section>
   );
 
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const totalItems = 385;
+  const perPageOptions = [10, 25, 50, 100];
+
   const [dropdownValue, setDropdownValue] = useState<number | ''>('');
   const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
     setDropdownValue(event.target.value as number | '');
+  };
+
+  const handlePerPageChange = (newPerPage: number) => {
+    setPerPage(newPerPage);
+    setPage(1);
   };
 
   return (
@@ -308,6 +334,27 @@ export const Login = () => {
             onChange={handleDropdownChange}
           />
         </ColorSectionWrapper>
+
+        <Section>
+          <SectionTitle>Pagination Example</SectionTitle>
+          <PaginationWrapper>
+            <Typography variant="body2">
+              Total suggestions: {totalItems}
+            </Typography>
+            <CustomPagination
+              totalItems={totalItems}
+              page={page}
+              perPage={perPage}
+              onPageChange={setPage}
+              onPerPageChange={handlePerPageChange}
+            />
+            <PerPage
+              perPage={perPage}
+              perPageOptions={perPageOptions}
+              onPerPageChange={handlePerPageChange}
+            />
+          </PaginationWrapper>
+        </Section>
       </Container>
       <h2>Date Picker with Calendar Switch</h2>
       <ToggleButtonGroup
