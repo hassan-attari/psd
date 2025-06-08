@@ -13,6 +13,7 @@ import {
   Typography,
   ToggleButtonGroup,
   ToggleButton,
+  Box,
 } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
@@ -33,7 +34,6 @@ import {
   SwapVerticalCircleOutlined,
 } from '@mui/icons-material';
 import { CustomPagination } from '../../components/pagination';
-import { Box } from '@mui/material';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -209,6 +209,23 @@ export const Login = () => {
     setPerPage(newPerPage);
     setPage(1);
   };
+  const StyledShadowBox = styled.div<{ shadow: string }>`
+    width: 120px;
+    height: 120px;
+    background-color: ${({ theme }) => theme.palette.white.main};
+    box-shadow: ${({ shadow, theme }) => theme.shadows[+shadow] || 'none'};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin: 50px 0;
+  `;
+
+  const ShadowBox = ({ shadow, label }: { shadow: string; label: string }) => (
+    <StyledShadowBox shadow={shadow}>
+      <Typography variant="caption">{label}</Typography>
+    </StyledShadowBox>
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -393,6 +410,16 @@ export const Login = () => {
       <Button size="large" color="secondary">
         save
       </Button>
+
+      <Box display={'flex'} flexWrap={'wrap'} gap={10}>
+        <ShadowBox shadow={'1'} label="Drop Shadow - 01" />
+        <ShadowBox shadow={'2'} label="Drop Shadow - 02" />
+        <ShadowBox shadow={'3'} label="Drop Shadow - 03" />
+        <ShadowBox shadow={'4'} label="Drop Shadow - 04" />
+        <ShadowBox shadow={'5'} label="Drop Shadow - 05" />
+        <ShadowBox shadow={'6'} label="Drop Shadow - 06" />
+        <ShadowBox shadow="none" label="No Shadow" />
+      </Box>
     </ThemeProvider>
   );
 };
