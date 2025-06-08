@@ -1,131 +1,207 @@
-import React, { useState, useRef, ChangeEvent } from 'react';
+import React, { useState, useRef, useCallback, memo } from 'react';
 import {
-  Button,
   Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   IconButton,
   Stack,
   LinearProgress,
+  Box,
 } from '@mui/material';
-import { CloudUpload, Close, Delete } from '@mui/icons-material';
+import { CloudUpload, Close } from '@mui/icons-material';
 import {
   StyledPaper,
   StyledUploadAreaContent,
   StyledProgressContainer,
-  StyledProgressText,
   StyledDialog,
   StyledDialogContent,
   StyledDialogActions,
   StyledDialogTitle,
 } from './upload.styles';
+import { Button } from '../button';
+import { FileUploadModalProps, FileWithProgress } from './upload';
 
-interface FileUploadModalProps {
-  open: boolean;
-  onClose: () => void;
-  onFileUpload: (file: File) => Promise<void> | void;
-  accept?: string;
-  maxSize?: number;
-  title?: string;
-}
-
-const FileUploadModal: React.FC<FileUploadModalProps> = ({
+export const FileUploadModal: React.FC<FileUploadModalProps> = ({
   open,
   onClose,
   onFileUpload,
   accept = '*',
   maxSize = 10485760, // 10MB default
-  title = 'Upload file',
+  title = 'Upload files',
+  multiple = true,
+  ...rest
 }) => {
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<FileWithProgress[]>([]);
   const [isDragging, setIsDragging] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const isUploading = files.some((f) => f.progress > 0 && f.progress < 100);
+  const allUploadsComplete = files.every((f) => f.progress === 100);
+
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
-  };
+  }, []);
 
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-  };
+  }, []);
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsDragging(false);
+      if (isUploading) return;
 
-    if (isUploading) return;
-
-    const droppedFiles = e.dataTransfer.files;
-    if (droppedFiles.length > 0) {
-      setFile(droppedFiles[0]);
-    }
-  };
-
-  const simulateProgress = async () => {
-    setIsUploading(true);
-    setUploadProgress(0);
-    setIsComplete(false);
-
-    // Simulate progress in steps
-    for (let progress = 0; progress <= 100; progress += 10) {
-      await new Promise((resolve) => setTimeout(resolve, 30));
-      setUploadProgress(progress);
-    }
-
-    setIsUploading(false);
-    setIsComplete(true);
-  };
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (isUploading) return;
-
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-
-      if (selectedFile.size > maxSize) {
-        alert(`File is too large. Maximum size is ${maxSize / 1048576}MB.`);
-        return;
+      const droppedFiles = Array.from(e.dataTransfer.files);
+      if (!multiple && droppedFiles.length > 1) {
+        handleFiles([droppedFiles[0]]);
+      } else {
+        handleFiles(droppedFiles);
       }
+    },
+    [isUploading, multiple]
+  );
 
-      setFile(selectedFile);
-      simulateProgress(); // Start progress simulation immediately
-    }
-  };
+  const handleFileChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (isUploading) return;
+      if (e.target.files) {
+        const selectedFiles = Array.from(e.target.files);
+        if (!multiple && selectedFiles.length > 1) {
+          handleFiles([selectedFiles[0]]);
+        } else {
+          handleFiles(selectedFiles);
+        }
+      }
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    },
+    [isUploading, multiple]
+  );
 
-  const triggerFileInput = () => {
+  const triggerFileInput = useCallback(() => {
     if (isUploading) return;
     fileInputRef.current?.click();
-  };
+  }, [isUploading]);
 
-  const handleRemoveFile = () => {
-    setFile(null);
-    setUploadProgress(0);
-    setIsComplete(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
+  const handleRemoveFile = useCallback((fileId: string) => {
+    setFiles((prevFiles) => prevFiles.filter((file) => file.id !== fileId));
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (isUploading) return;
-    setFile(null);
-    setUploadProgress(0);
-    setIsComplete(false);
+    setFiles([]);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
     onClose();
-  };
+  }, [isUploading, onClose]);
+
+  const uploadFilesHandler = useCallback(async () => {
+    if (files.length === 0) return;
+    const filesToUpload = files.map((f) => f.file);
+    await onFileUpload(filesToUpload);
+    handleClose();
+  }, [files, handleClose, onFileUpload]);
+
+  const simulateProgress = useCallback((fileId: string) => {
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 10;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+      }
+
+      setFiles((prevFiles) =>
+        prevFiles.map((file) =>
+          file.id === fileId ? { ...file, progress } : file
+        )
+      );
+    }, 100);
+  }, []);
+
+  const handleFiles = useCallback(
+    (incomingFiles: File[]) => {
+      const validFiles = incomingFiles
+        .filter((file) => file.size <= maxSize)
+        .map((file) => ({
+          file,
+          id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          progress: 0,
+        }));
+
+      setFiles((prevFiles) => {
+        if (!multiple) {
+          return validFiles.slice(0, 1);
+        }
+
+        const newFiles = validFiles.filter(
+          (newFile) =>
+            !prevFiles.some(
+              (existingFile) =>
+                existingFile.file.name === newFile.file.name &&
+                existingFile.file.size === newFile.file.size
+            )
+        );
+        return [...prevFiles, ...newFiles];
+      });
+
+      validFiles.slice(0, multiple ? undefined : 1).forEach((file) => {
+        simulateProgress(file.id);
+      });
+    },
+    [maxSize, multiple, simulateProgress]
+  );
+
+  const FileList = memo(({ files }: { files: FileWithProgress[] }) => (
+    <Box>
+      {files.map(({ file, progress, id }) => (
+        <StyledProgressContainer key={id}>
+          <Stack
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            flexDirection={'row'}
+            gap={'4px'}
+          >
+            <Stack display={'flex'} flexDirection={'column'}>
+              <Typography className="text-sm-medium" noWrap>
+                {file.name}
+              </Typography>
+              <Typography className="text-xs-medium">
+                {(file.size / 1048576).toFixed(2)}MB
+              </Typography>
+            </Stack>
+            <Box>
+              <IconButton
+                onClick={() => handleRemoveFile(id)}
+                disabled={progress > 0 && progress < 100}
+                size="small"
+              >
+                <Close fontSize="small" />
+              </IconButton>
+              {progress < 100 && (
+                <Typography className="text-xs-medium">
+                  {`${progress}%`}
+                </Typography>
+              )}
+            </Box>
+          </Stack>
+          {progress < 100 && (
+            <LinearProgress
+              variant="determinate"
+              value={progress}
+              color={'secondary'}
+            />
+          )}
+        </StyledProgressContainer>
+      ))}
+    </Box>
+  ));
 
   return (
     <StyledDialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
@@ -147,11 +223,13 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
-            accept={accept !== '*' ? accept : undefined}
+            accept={accept}
             hidden
+            multiple={multiple}
             disabled={isUploading}
+            data-testid="file-input"
+            {...rest}
           />
-
           <StyledPaper
             isDragging={isDragging}
             isUploading={isUploading}
@@ -160,69 +238,30 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            <CloudUpload
-              fontSize="large"
-              color={isDragging ? 'primary' : 'secondary'}
-            />
+            <CloudUpload fontSize="large" color={'secondary'} />
             <Typography variant="body1" width={'100%'}>
-              {isDragging ? (
-                'Drop the file here'
-              ) : file ? (
-                file.name
-              ) : (
-                <>
-                  Drag and drop here or{' '}
-                  <Typography component="span" color="secondary">
-                    choose a file
-                  </Typography>{' '}
-                  to upload
-                </>
-              )}
+              Drag and drop here or{' '}
+              <Typography component="span" color="secondary">
+                choose a file
+              </Typography>{' '}
+              to upload
             </Typography>
-            {file && (
-              <Typography variant="body2" color="text.secondary">
-                {(file.size / 1048576).toFixed(2)}MB
-              </Typography>
-            )}
           </StyledPaper>
-
-          {(isUploading || isComplete) && (
-            <StyledProgressContainer>
-              <LinearProgress
-                variant="determinate"
-                value={uploadProgress}
-                color={'secondary'}
-                sx={{ height: 8, borderRadius: 4 }}
-              />
-              <StyledProgressText variant="body2" color="text.secondary">
-                {isComplete
-                  ? 'File ready for upload!'
-                  : `${uploadProgress}% loading...`}
-              </StyledProgressText>
-            </StyledProgressContainer>
-          )}
+          {files.length > 0 && <FileList files={files} />}
         </StyledUploadAreaContent>
       </StyledDialogContent>
       <StyledDialogActions>
-        {file && !isUploading && (
-          <IconButton onClick={handleRemoveFile}>
-            <Delete color="error" />
-          </IconButton>
-        )}
         <Button onClick={handleClose} variant="outlined" disabled={isUploading}>
           Cancel
         </Button>
         <Button
-          onClick={triggerFileInput}
-          disabled={isUploading}
+          onClick={uploadFilesHandler}
+          disabled={!allUploadsComplete}
           variant="contained"
-          color={'primary'}
         >
-          {'Upload File'}
+          Import file
         </Button>
       </StyledDialogActions>
     </StyledDialog>
   );
 };
-
-export default FileUploadModal;

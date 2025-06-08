@@ -1,7 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button, Loading, Dropdown, DatePicker } from '../../components';
+import {
+  Button,
+  Loading,
+  Dropdown,
+  DatePicker,
+  FileUploadModal,
+} from '../../components';
 import {
   Chip,
   Typography,
@@ -20,13 +26,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { subYears, addYears } from 'date-fns';
-
-import {
-  Dashboard,
-  LocalDining,
-  SwapVerticalCircleOutlined,
-} from '@mui/icons-material';
-import FileUploadModal from '../../components/upload';
+import { Dashboard, LocalDining } from '@mui/icons-material';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -186,9 +186,8 @@ export const Login = () => {
   };
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleFileUpload = (file: File) => {
-    console.log('File uploaded:', file.name);
-    // Handle the actual file upload here
+  const handleFileUpload = (files: File[]) => {
+    console.log('Files uploaded:', files);
   };
   return (
     <ThemeProvider theme={theme}>
@@ -360,8 +359,6 @@ export const Login = () => {
             open={modalOpen}
             onClose={() => setModalOpen(false)}
             onFileUpload={handleFileUpload}
-            accept=".pdf,.doc,.docx" // Example accept types
-            maxSize={5242880} // 5MB
           />
         </ColorSectionWrapper>
       </Container>

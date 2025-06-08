@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import {
   Paper,
   LinearProgress,
-  Typography,
   Dialog,
   DialogContent,
   DialogActions,
@@ -53,15 +52,16 @@ export const StyledUploadAreaContent = styled.div`
 `;
 
 export const StyledProgressContainer = styled.div`
-  margin-top: 24px;
+  margin-top: 10px;
   background-color: ${({ theme }) => theme.palette.gray.lightHover};
   border-radius: 10px;
-  padding: 7px 12px;
-`;
-
-export const StyledProgressText = styled(Typography)`
-  margin-top: 8px;
-  text-align: center;
+  padding: 6px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  & .MuiLinearProgress-root {
+    border-radius: 1.25rem;
+  }
 `;
 
 export const StyledLinearProgress = styled(LinearProgress)`
