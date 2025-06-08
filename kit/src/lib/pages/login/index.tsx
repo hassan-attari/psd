@@ -8,6 +8,7 @@ import {
   DatePicker,
   PerPage,
   FileUploadModal,
+  Snackbar,
 } from '../../components';
 import {
   Chip,
@@ -228,6 +229,7 @@ export const Login = () => {
     </StyledShadowBox>
   );
   const [modalOpen, setModalOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleFileUpload = (files: File[]) => {
     console.log('Files uploaded:', files);
@@ -433,6 +435,15 @@ export const Login = () => {
             open={modalOpen}
             onClose={() => setModalOpen(false)}
             onFileUpload={handleFileUpload}
+          />
+        </ColorSectionWrapper>
+        <ColorSectionWrapper>
+          <Button onClick={() => setSnackbarOpen(true)}>Open Snackbar</Button>
+          <Snackbar
+            open={snackbarOpen}
+            onClose={() => setSnackbarOpen(false)}
+            message="This Snackbar will be dismissed in 3 seconds."
+            severity="success"
           />
         </ColorSectionWrapper>
       </Container>
