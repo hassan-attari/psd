@@ -303,8 +303,7 @@ export const Login = () => {
       <Button loading={true} size="medium" />
       <Button loading={true} size="large" color="secondary" />
       <Button loading={true} />
-
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+      <Box display={'flex'} flexWrap={'wrap'} gap={10}>
         <ShadowBox shadow={'1'} label="Drop Shadow - 01" />
         <ShadowBox shadow={'2'} label="Drop Shadow - 02" />
         <ShadowBox shadow={'3'} label="Drop Shadow - 03" />
