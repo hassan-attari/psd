@@ -7,6 +7,7 @@ import {
   Dropdown,
   DatePicker,
   PerPage,
+  FileUploadModal,
 } from '../../components';
 import {
   Chip,
@@ -226,7 +227,11 @@ export const Login = () => {
       <Typography variant="caption">{label}</Typography>
     </StyledShadowBox>
   );
+  const [modalOpen, setModalOpen] = useState(false);
 
+  const handleFileUpload = (files: File[]) => {
+    console.log('Files uploaded:', files);
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -372,54 +377,65 @@ export const Login = () => {
             />
           </PaginationWrapper>
         </Section>
-      </Container>
-      <h2>Date Picker with Calendar Switch</h2>
-      <ToggleButtonGroup
-        value={calendarType}
-        exclusive
-        onChange={handleCalendarChange}
-        aria-label="calendar type"
-        size="small"
-      >
-        <ToggleButton value="gregorian" aria-label="gregorian">
-          Gregorian
-        </ToggleButton>
-        <ToggleButton value="jalali" aria-label="jalali">
-          Jalali
-        </ToggleButton>
-      </ToggleButtonGroup>
-      <ColorSectionWrapper>
-        <DatePicker
-          value={selectedDate}
-          onChange={setSelectedDate}
-          minDate={minDate}
-          maxDate={maxDate}
-          calendarType={calendarType}
-        />
-      </ColorSectionWrapper>
-      <Loading open={loading} />
-      <Button loading={false} size="small">
-        save
-      </Button>
-      <Button loading={true} size="medium">
-        save
-      </Button>
-      <Button loading={true} size="large" color="secondary">
-        save
-      </Button>
-      <Button size="large" color="secondary">
-        save
-      </Button>
+        <h2>Date Picker with Calendar Switch</h2>
+        <ToggleButtonGroup
+          value={calendarType}
+          exclusive
+          onChange={handleCalendarChange}
+          aria-label="calendar type"
+          size="small"
+        >
+          <ToggleButton value="gregorian" aria-label="gregorian">
+            Gregorian
+          </ToggleButton>
+          <ToggleButton value="jalali" aria-label="jalali">
+            Jalali
+          </ToggleButton>
+        </ToggleButtonGroup>
+        <ColorSectionWrapper>
+          <DatePicker
+            value={selectedDate}
+            onChange={setSelectedDate}
+            minDate={minDate}
+            maxDate={maxDate}
+            calendarType={calendarType}
+          />
+        </ColorSectionWrapper>
+        <Loading open={loading} />
+        <Button loading={false} size="small">
+          save
+        </Button>
+        <Button loading={true} size="medium">
+          save
+        </Button>
+        <Button loading={true} size="large" color="secondary">
+          save
+        </Button>
+        <Button size="large" color="secondary">
+          save
+        </Button>
 
-      <Box display={'flex'} flexWrap={'wrap'} gap={10}>
-        <ShadowBox shadow={'1'} label="Drop Shadow - 01" />
-        <ShadowBox shadow={'2'} label="Drop Shadow - 02" />
-        <ShadowBox shadow={'3'} label="Drop Shadow - 03" />
-        <ShadowBox shadow={'4'} label="Drop Shadow - 04" />
-        <ShadowBox shadow={'5'} label="Drop Shadow - 05" />
-        <ShadowBox shadow={'6'} label="Drop Shadow - 06" />
-        <ShadowBox shadow="none" label="No Shadow" />
-      </Box>
+        <Box display={'flex'} flexWrap={'wrap'} gap={10}>
+          <ShadowBox shadow={'1'} label="Drop Shadow - 01" />
+          <ShadowBox shadow={'2'} label="Drop Shadow - 02" />
+          <ShadowBox shadow={'3'} label="Drop Shadow - 03" />
+          <ShadowBox shadow={'4'} label="Drop Shadow - 04" />
+          <ShadowBox shadow={'5'} label="Drop Shadow - 05" />
+          <ShadowBox shadow={'6'} label="Drop Shadow - 06" />
+          <ShadowBox shadow="none" label="No Shadow" />
+        </Box>
+
+        <ColorSectionWrapper>
+          <Button variant="contained" onClick={() => setModalOpen(true)}>
+            Open Upload
+          </Button>
+          <FileUploadModal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onFileUpload={handleFileUpload}
+          />
+        </ColorSectionWrapper>
+      </Container>
     </ThemeProvider>
   );
 };
