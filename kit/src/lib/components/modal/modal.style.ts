@@ -5,8 +5,11 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
+  Button,
 } from '@mui/material';
 import { DialogType } from './modal';
+import { CheckCircle, Error, Cancel } from '@mui/icons-material';
+import palette from '../theme/palette';
 
 export const StyledDialog = styled(Dialog, {
   shouldForwardProp: (prop) => prop !== 'dialogtype',
@@ -20,13 +23,13 @@ export const StyledDialog = styled(Dialog, {
     ${({ dialogtype }) => {
       switch (dialogtype) {
         case 'success':
-          return `background: linear-gradient(359.82deg, #FFFFFF 77.57%, #E2FFE3 116.37%);`;
+          return `background: linear-gradient(359.82deg, ${palette.white.main} 77.57%, ${palette.success.light} 116.37%);`;
         case 'attention':
-          return `background: linear-gradient(359.82deg, #FFFFFF 77.57%, #FFEEE2 116.37%);`;
+          return `background: linear-gradient(359.82deg, ${palette.white.main} 77.57%, ${palette.warning.light} 116.37%);`;
         case 'warning':
-          return `background: linear-gradient(359.82deg, #FFFFFF 77.57%, #FFE2E2 116.37%);`;
+          return `background: linear-gradient(359.82deg, ${palette.white.main} 77.57%, ${palette.error.light} 116.37%);`;
         default:
-          return `background: #fff;`;
+          return `background: ${palette.white.main};`;
       }
     }}
 
@@ -53,4 +56,30 @@ export const StyledDialogContent = styled(DialogContent)`
 export const StyledDialogActions = styled(DialogActions)`
   justify-content: end;
   gap: ${({ theme }) => theme.spacing(1)};
+`;
+
+export const StyledCheckCircle = styled(CheckCircle)`
+  font-size: 32px;
+  background-color: ${palette.success.light};
+  border-radius: 100%;
+  padding: 5px;
+`;
+
+export const StyledError = styled(Error)`
+  font-size: 32px;
+  background-color: ${palette.warning.light};
+  border-radius: 100%;
+  padding: 5px;
+`;
+
+export const StyledCancel = styled(Cancel)`
+  font-size: 32px;
+  background-color: ${palette.error.light};
+  border-radius: 100%;
+  padding: 5px;
+`;
+
+export const StyledButton = styled(Button)`
+  border-radius: 8px;
+  width: 100px;
 `;

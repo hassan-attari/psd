@@ -3,14 +3,14 @@ import { render, screen } from '@testing-library/react';
 
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { AlertDialog } from './index';
+import { Modal } from './index';
 import { theme } from '../theme/theme';
 import '@testing-library/jest-dom';
 
 const renderWithTheme = (ui: React.ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
 
-describe('AlertDialog Component', () => {
+describe('Modal Component', () => {
   const defaultProps = {
     open: true,
     title: 'Test Title',
@@ -24,7 +24,7 @@ describe('AlertDialog Component', () => {
   };
 
   it('renders with success type and correct elements', () => {
-    renderWithTheme(<AlertDialog {...defaultProps} type="success" />);
+    renderWithTheme(<Modal {...defaultProps} type="success" />);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Test Title')).toBeInTheDocument();
@@ -35,12 +35,12 @@ describe('AlertDialog Component', () => {
   });
 
   it('renders with attention type', () => {
-    renderWithTheme(<AlertDialog {...defaultProps} type="attention" />);
+    renderWithTheme(<Modal {...defaultProps} type="attention" />);
     expect(screen.getByLabelText('Error')).toBeInTheDocument();
   });
 
   it('renders with warning type', () => {
-    renderWithTheme(<AlertDialog {...defaultProps} type="warning" />);
+    renderWithTheme(<Modal {...defaultProps} type="warning" />);
     expect(screen.getByLabelText('Cancel')).toBeInTheDocument();
   });
 
@@ -51,15 +51,15 @@ describe('AlertDialog Component', () => {
       </div>
     );
     renderWithTheme(
-      <AlertDialog {...defaultProps} type="success">
+      <Modal {...defaultProps} type="success">
         {customContent}
-      </AlertDialog>
+      </Modal>
     );
     expect(screen.getByText('This is custom content')).toBeInTheDocument();
   });
 
   it('IconWrapper has disableRipple prop', () => {
-    renderWithTheme(<AlertDialog {...defaultProps} type="success" />);
+    renderWithTheme(<Modal {...defaultProps} type="success" />);
     const iconButton = screen.getByRole('button', {
       name: /circle|error|cancel/i,
     });

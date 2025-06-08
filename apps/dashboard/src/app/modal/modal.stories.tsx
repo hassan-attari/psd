@@ -1,11 +1,11 @@
 import { StoryFn, Meta } from '@storybook/react';
-import { AlertDialog, theme } from '@dashboard/kit';
+import { Modal, theme } from '@dashboard/kit';
 import { ThemeProvider } from '@mui/material/styles';
-import { AlertDialogProps } from 'kit/src/lib/components/modal/modal';
+import { ModalProps } from 'kit/src/lib/components/modal/modal';
 
 export default {
   title: 'Components/Modal',
-  component: AlertDialog,
+  component: Modal,
   decorators: [
     (Story) => (
       <ThemeProvider theme={theme}>
@@ -24,11 +24,9 @@ export default {
     children: { control: 'text' },
     open: { control: 'boolean' },
   },
-} as Meta<typeof AlertDialog>;
+} as Meta<typeof Modal>;
 
-const Template: StoryFn<AlertDialogProps> = (args: AlertDialogProps) => (
-  <AlertDialog {...args} />
-);
+const Template: StoryFn<ModalProps> = (args: ModalProps) => <Modal {...args} />;
 
 export const Success = Template.bind({});
 Success.args = {

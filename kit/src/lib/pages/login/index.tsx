@@ -30,7 +30,7 @@ import { Dashboard, LocalDining } from '@mui/icons-material';
 import { CustomPagination } from '../../components/pagination';
 import { Box } from '@mui/material';
 import { DialogType } from '../../components/modal/modal';
-import { AlertDialog } from '../../components/modal';
+import { Modal } from '../../components/modal';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -465,7 +465,7 @@ export const Login = () => {
           Show Warning
         </Button>
 
-        <AlertDialog
+        <Modal
           open={dialogState.open}
           type={dialogState.type}
           title={dialogState.title}
@@ -473,7 +473,7 @@ export const Login = () => {
           onAccept={handleAccept}
         >
           {dialogState.message}
-        </AlertDialog>
+        </Modal>
       </ColorSectionWrapper>
     </ThemeProvider>
   );
