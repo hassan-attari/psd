@@ -29,13 +29,10 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { subYears, addYears } from 'date-fns';
-
-import {
-  Dashboard,
-  LocalDining,
-  SwapVerticalCircleOutlined,
-} from '@mui/icons-material';
+import { Dashboard, LocalDining } from '@mui/icons-material';
 import { CustomPagination } from '../../components/pagination';
+import { DialogType } from '../../components/modal/modal';
+import { Modal } from '../../components/modal';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -148,6 +145,24 @@ const PaginationWrapper = styled(Box)`
   margin-top: 1rem;
 `;
 
+const dialogDetails = {
+  success: {
+    title: 'Done',
+    message:
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. fuga, quibusdam onsectetur adipisicing elit. fuga, quibusdam',
+  },
+  attention: {
+    title: 'Attention',
+    message:
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. fuga, quibusdam onsectetur adipisicing elit. fuga, quibusdam',
+  },
+  warning: {
+    title: 'Warning',
+    message:
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. fuga, quibusdam onsectetur adipisicing elit. fuga, quibusdam',
+  },
+};
+
 export const Login = () => {
   const theme = useTheme();
   const variants = ['outlined', 'contained'] as const;
@@ -201,6 +216,37 @@ export const Login = () => {
   const [perPage, setPerPage] = useState(10);
   const totalItems = 385;
   const perPageOptions = [10, 25, 50, 100];
+
+  const [dialogState, setDialogState] = useState<{
+    open: boolean;
+    type: DialogType;
+    title: string;
+    message: string;
+  }>({
+    open: false,
+    type: 'success',
+    title: '',
+    message: '',
+  });
+
+  const handleOpenDialog = (type: DialogType) => {
+    const details = dialogDetails[type];
+    setDialogState({
+      open: true,
+      type: type,
+      title: details.title,
+      message: details.message,
+    });
+  };
+
+  const handleClose = () => {
+    setDialogState((prevState) => ({ ...prevState, open: false }));
+  };
+
+  const handleAccept = () => {
+    console.log(`User accepted the "${dialogState.type}" dialog.`);
+    handleClose();
+  };
 
   const [dropdownValue, setDropdownValue] = useState<number | ''>('');
   const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
@@ -447,6 +493,42 @@ export const Login = () => {
           />
         </ColorSectionWrapper>
       </Container>
+
+      <ColorSectionWrapper>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => handleOpenDialog('success')}
+        >
+          Show Success
+        </Button>
+
+        <Button
+          variant="contained"
+          color="warning"
+          onClick={() => handleOpenDialog('attention')}
+        >
+          Show Attention
+        </Button>
+
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => handleOpenDialog('warning')}
+        >
+          Show Warning
+        </Button>
+
+        <Modal
+          open={dialogState.open}
+          type={dialogState.type}
+          title={dialogState.title}
+          onClose={handleClose}
+          onAccept={handleAccept}
+        >
+          {dialogState.message}
+        </Modal>
+      </ColorSectionWrapper>
     </ThemeProvider>
   );
 };

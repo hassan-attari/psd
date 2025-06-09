@@ -10,3 +10,4 @@ export * from './pagination';
 export * from './perpage';
 export * from './upload';
 export * from './snackbar';
+export * from './modal';
