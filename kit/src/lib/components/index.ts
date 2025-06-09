@@ -8,3 +8,4 @@ export * from './datepicker';
 export * from './loading';
 export * from './pagination';
 export * from './perpage';
+export * from './modal';
