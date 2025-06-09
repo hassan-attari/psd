@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { IconButton, SnackbarCloseReason } from '@mui/material';
 import SnackbarComponent from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';

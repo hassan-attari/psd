@@ -1,3 +1,5 @@
+import React from 'react';
+
 export type SnackbarProps = {
   open: boolean;
   onClose: () => void;
