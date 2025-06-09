@@ -1,0 +1,21 @@
+export type InputProps = {
+  name: string;
+  label?: string;
+  type?: string;
+  placeholder?: string;
+  Icon?: React.ElementType;
+  guidMessage?: string;
+  maxLength?: number;
+  disabled?: boolean;
+  handleOnChange?: (value: string) => void;
+  hasNumberSeparator?: boolean;
+  required?: boolean;
+  showIcon?: React.ReactNode;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  className?: string;
+  value?: string | number;
+  hasError?: boolean;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
+};
