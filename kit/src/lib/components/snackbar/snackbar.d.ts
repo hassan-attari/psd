@@ -13,7 +13,7 @@ export type SnackbarProps = {
   notify?: boolean;
 };
 
-type Severity = 'success' | 'error' | 'info' | 'warning';
+export type Severity = 'success' | 'error' | 'info' | 'warning';
 
 export type StyledBoxProps = {
   severity?: Severity;
