@@ -115,7 +115,7 @@ const ColorSectionWrapper = styled.div`
   gap: 1rem;
 `;
 
-const options: DropdownOption<number>[] = [
+const options: DropdownOption[] = [
   { value: 10, label: 'option 1' },
   { value: 20, label: 'option 2' },
   { value: 30, label: 'option 3', disabled: true },
@@ -248,10 +248,10 @@ export const Login = () => {
     handleClose();
   };
 
-  const [dropdownValue, setDropdownValue] = useState<number | ''>('');
-  const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
-    setDropdownValue(event.target.value as number | '');
-  };
+  const [dropdownValue, setDropdownValue] = useState('');
+  // const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
+  //   setDropdownValue(event.target.value as number | '');
+  // };
 
   const handlePerPageChange = (newPerPage: number) => {
     setPerPage(newPerPage);
@@ -397,11 +397,11 @@ export const Login = () => {
         </Section>
         <ColorSectionWrapper>
           <Dropdown
-            name="single-select"
-            label="Select a Option"
+            label="Choose a fruit"
             options={options}
             value={dropdownValue}
-            onChange={handleDropdownChange}
+            onChange={setDropdownValue}
+            multiple
           />
         </ColorSectionWrapper>
 
