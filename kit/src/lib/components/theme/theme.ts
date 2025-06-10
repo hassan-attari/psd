@@ -20,9 +20,9 @@ export const theme = createTheme({
     MuiChip: chipStyleOverrides,
     MuiCheckbox: checkboxStyleOverrides,
     MuiRadio: checkboxStyleOverrides,
-    ...dropdownStyleOverrides,
     MuiFormControl: formControlStyleOverrides,
     MuiDayCalendar: datepickerStyleOverrides,
     MuiSelect: selectStyleOverrides,
+    MuiAutocomplete: dropdownStyleOverrides,
   },
 });
