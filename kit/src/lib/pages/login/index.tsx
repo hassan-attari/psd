@@ -25,7 +25,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useState } from 'react';
-import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { subYears, addYears } from 'date-fns';
@@ -115,7 +114,7 @@ const ColorSectionWrapper = styled.div`
   gap: 1rem;
 `;
 
-const options: DropdownOption[] = [
+const options: DropdownOption<number>[] = [
   { value: 10, label: 'option 1' },
   { value: 20, label: 'option 2' },
   { value: 30, label: 'option 3', disabled: true },
@@ -248,10 +247,9 @@ export const Login = () => {
     handleClose();
   };
 
-  const [dropdownValue, setDropdownValue] = useState('');
-  // const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
-  //   setDropdownValue(event.target.value as number | '');
-  // };
+  const [dropdownValue, setDropdownValue] = useState<
+    number | (number | undefined)[] | undefined
+  >();
 
   const handlePerPageChange = (newPerPage: number) => {
     setPerPage(newPerPage);
@@ -397,11 +395,10 @@ export const Login = () => {
         </Section>
         <ColorSectionWrapper>
           <Dropdown
-            label="Choose a fruit"
+            label="Choose"
             options={options}
             value={dropdownValue}
             onChange={setDropdownValue}
-            multiple
           />
         </ColorSectionWrapper>
 

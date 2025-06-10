@@ -4,11 +4,18 @@ export interface DropdownOption<T> {
   disabled?: boolean;
 }
 
-export type AutocompleteDropdownProps<T> = {
+export type DropdownProps<T> = {
   label?: string;
   options: DropdownOption<T>[];
   value: T | T[];
   onChange: (value: T | T[]) => void;
   multiple?: boolean;
   placeholder?: string;
+  required?: boolean;
+  size?: 'small' | 'medium';
+  disabled?: boolean;
+  error?: boolean;
+  fullWidth?: boolean;
+  helperText?: string;
+  variant?: 'outlined' | 'filled' | 'standard';
 };

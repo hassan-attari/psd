@@ -1,69 +1,52 @@
 import React from 'react';
-import {
-  Autocomplete,
-  TextField,
-  Checkbox,
-  AutocompleteRenderOptionState,
-  Box,
-  InputLabel,
-} from '@mui/material';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { AutocompleteDropdownProps, DropdownOption } from './dropdown';
+import { Autocomplete, TextField, FormControl } from '@mui/material';
+import { DropdownProps, DropdownOption } from './dropdown';
 
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
-export function AutocompleteDropdown<T>({
+export function Dropdown<T>({
   label = 'Select:',
-  options,
+  options = [],
   value,
   onChange,
   multiple = false,
   placeholder = '',
-}: AutocompleteDropdownProps<T>) {
+  size = 'medium',
+  fullWidth = false,
+  error,
+  required,
+  disabled,
+  helperText,
+  variant = 'outlined',
+}: DropdownProps<T>) {
   const getOptionDisabled = (option: DropdownOption<T>) => !!option.disabled;
 
   const handleChange = (
-    _: any,
+    _: React.SyntheticEvent,
     newValue: DropdownOption<T> | DropdownOption<T>[] | null
   ) => {
     if (multiple) {
       const values = (newValue as DropdownOption<T>[]).map((o) => o.value);
       onChange(values);
-    } else if (newValue) {
-      onChange((newValue as DropdownOption<T>).value);
+    } else {
+      onChange((newValue as DropdownOption<T>)?.value);
     }
   };
 
   const getValue = () => {
     if (multiple) {
-      return options.filter((o) => (value as T[]).includes(o.value));
+      return options.filter((o) => (value as T[])?.includes(o.value));
     }
     return options.find((o) => o.value === value) || null;
   };
 
-  const renderOption = (
-    props: React.HTMLAttributes<HTMLLIElement>,
-    option: DropdownOption<T>,
-    { selected }: AutocompleteRenderOptionState
-  ) => (
-    <li {...props} style={{ opacity: option.disabled ? 0.5 : 1 }}>
-      {multiple && (
-        <Checkbox
-          icon={icon}
-          checkedIcon={checkedIcon}
-          style={{ marginRight: 8 }}
-          checked={selected}
-        />
-      )}
-      {option.label}
-    </li>
-  );
-
   return (
-    <Box>
-      <InputLabel>{label}</InputLabel>
+    <FormControl
+      size={size}
+      error={error}
+      fullWidth={fullWidth}
+      disabled={disabled}
+      required={required}
+      variant={variant}
+    >
       <Autocomplete
         multiple={multiple}
         disableCloseOnSelect={multiple}
@@ -71,18 +54,21 @@ export function AutocompleteDropdown<T>({
         value={getValue()}
         onChange={handleChange}
         getOptionDisabled={getOptionDisabled}
+        disabled={disabled}
         isOptionEqualToValue={(option, val) => option.value === val.value}
-        renderOption={renderOption}
         renderInput={(params) => (
           <TextField
             {...params}
-            variant="outlined"
-            size="small"
+            variant={variant}
+            size={size}
+            label={label}
             placeholder={placeholder}
+            error={error}
+            helperText={helperText}
+            disabled={disabled}
           />
         )}
-        sx={{ minWidth: 200 }}
       />
-    </Box>
+    </FormControl>
   );
 }

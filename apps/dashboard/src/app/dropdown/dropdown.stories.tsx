@@ -37,7 +37,6 @@ const Template: Story = {
     </ThemeProvider>
   ),
   args: {
-    name: 'default-dropdown',
     options: commonOptions,
     value: '',
     onChange: action('dropdown-changed'),
