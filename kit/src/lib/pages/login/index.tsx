@@ -9,6 +9,7 @@ import {
   PerPage,
   FileUploadModal,
   Snackbar,
+  Input,
 } from '../../components';
 import {
   Chip,
@@ -16,6 +17,7 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   Box,
+  TextField,
 } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
@@ -28,7 +30,15 @@ import { useState } from 'react';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { subYears, addYears } from 'date-fns';
-import { Dashboard, LocalDining } from '@mui/icons-material';
+
+import {
+  Close,
+  Dashboard,
+  Info,
+  LocalDining,
+  Search,
+  SwapVerticalCircleOutlined,
+} from '@mui/icons-material';
 import { CustomPagination } from '../../components/pagination';
 import { DialogType } from '../../components/modal/modal';
 import { Modal } from '../../components/modal';
@@ -182,6 +192,7 @@ export const Login = () => {
   const today = new Date();
   const minDate = subYears(today, 1); // 1 year ago
   const maxDate = addYears(today, 1); // 1 year from now
+  const [amount, setAmount] = useState('');
 
   const handleCalendarChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -526,6 +537,67 @@ export const Login = () => {
           {dialogState.message}
         </Modal>
       </ColorSectionWrapper>
+      <Box
+        marginY={'200px'}
+        width={'300px'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'50px'}
+      >
+        <Input
+          placeholder="kddd"
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          hasError={false}
+        />
+        <Input
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          hasError={true}
+        />
+        <Input
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          endIcon={<Info />}
+        />
+        <Input
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          startIcon={<Info />}
+        />
+        <Input
+          placeholder="text"
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          startIcon={<Search />}
+          endIcon={<Close />}
+        />
+      </Box>
     </ThemeProvider>
   );
 };

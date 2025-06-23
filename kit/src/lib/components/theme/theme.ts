@@ -8,6 +8,7 @@ import { datepickerStyleOverrides } from './datepicker';
 import { formControlStyleOverrides } from './form-control';
 import { selectStyleOverrides } from './select';
 import { customShadows } from './shadow';
+import MuiInput from './input';
 
 export const theme = createTheme({
   palette: palette,
@@ -24,5 +25,6 @@ export const theme = createTheme({
     MuiDayCalendar: datepickerStyleOverrides,
     MuiSelect: selectStyleOverrides,
     MuiAutocomplete: dropdownStyleOverrides,
+    MuiOutlinedInput: MuiInput,
   },
 });

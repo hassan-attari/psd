@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "es6"],
     "outDir": "./out-tsc/vitest",
     "types": [
       "vitest/globals",
