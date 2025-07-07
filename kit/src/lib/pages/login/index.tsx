@@ -1,13 +1,23 @@
 /** @jsxImportSource @emotion/react */
 import { useTheme } from '@mui/material/styles';
 import styled from '@emotion/styled';
-import { Button, Loading, Dropdown, DatePicker } from '../../components';
+import {
+  Button,
+  Loading,
+  Dropdown,
+  DatePicker,
+  PerPage,
+  FileUploadModal,
+  Snackbar,
+  Input,
+} from '../../components';
 import {
   Chip,
   Typography,
   ToggleButtonGroup,
   ToggleButton,
   Box,
+  TextField,
 } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
@@ -17,16 +27,21 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useState } from 'react';
-import { SelectChangeEvent } from '@mui/material/Select';
 import { DropdownOption } from '../../components/dropdown/dropdown';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { subYears, addYears } from 'date-fns';
 
 import {
+  Close,
   Dashboard,
+  Info,
   LocalDining,
+  Search,
   SwapVerticalCircleOutlined,
 } from '@mui/icons-material';
+import { CustomPagination } from '../../components/pagination';
+import { DialogType } from '../../components/modal/modal';
+import { Modal } from '../../components/modal';
 import { Header } from '../../components/header';
 
 const typographyClasses = [
@@ -132,6 +147,32 @@ const ButtonLabel = styled.div`
   margin-bottom: 0.5rem;
 `;
 
+const PaginationWrapper = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-items: center;
+  margin-top: 1rem;
+`;
+
+const dialogDetails = {
+  success: {
+    title: 'Done',
+    message:
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. fuga, quibusdam onsectetur adipisicing elit. fuga, quibusdam',
+  },
+  attention: {
+    title: 'Attention',
+    message:
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. fuga, quibusdam onsectetur adipisicing elit. fuga, quibusdam',
+  },
+  warning: {
+    title: 'Warning',
+    message:
+      'lorem ipsum dolor sit amet consectetur adipisicing elit. fuga, quibusdam onsectetur adipisicing elit. fuga, quibusdam',
+  },
+};
+
 export const Login = () => {
   const theme = useTheme();
   const variants = ['outlined', 'contained'] as const;
@@ -152,6 +193,7 @@ export const Login = () => {
   const today = new Date();
   const minDate = subYears(today, 1); // 1 year ago
   const maxDate = addYears(today, 1); // 1 year from now
+  const [amount, setAmount] = useState('');
 
   const handleCalendarChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -181,11 +223,73 @@ export const Login = () => {
     </Section>
   );
 
-  const [dropdownValue, setDropdownValue] = useState<number | ''>('');
-  const handleDropdownChange = (event: SelectChangeEvent<number | ''>) => {
-    setDropdownValue(event.target.value as number | '');
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const totalItems = 385;
+  const perPageOptions = [10, 25, 50, 100];
+
+  const [dialogState, setDialogState] = useState<{
+    open: boolean;
+    type: DialogType;
+    title: string;
+    message: string;
+  }>({
+    open: false,
+    type: 'success',
+    title: '',
+    message: '',
+  });
+
+  const handleOpenDialog = (type: DialogType) => {
+    const details = dialogDetails[type];
+    setDialogState({
+      open: true,
+      type: type,
+      title: details.title,
+      message: details.message,
+    });
   };
 
+  const handleClose = () => {
+    setDialogState((prevState) => ({ ...prevState, open: false }));
+  };
+
+  const handleAccept = () => {
+    console.log(`User accepted the "${dialogState.type}" dialog.`);
+    handleClose();
+  };
+
+  const [dropdownValue, setDropdownValue] = useState<
+    number | (number | undefined)[] | undefined
+  >();
+
+  const handlePerPageChange = (newPerPage: number) => {
+    setPerPage(newPerPage);
+    setPage(1);
+  };
+  const StyledShadowBox = styled.div<{ shadow: string }>`
+    width: 120px;
+    height: 120px;
+    background-color: ${({ theme }) => theme.palette.white.main};
+    box-shadow: ${({ shadow, theme }) => theme.shadows[+shadow] || 'none'};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin: 50px 0;
+  `;
+
+  const ShadowBox = ({ shadow, label }: { shadow: string; label: string }) => (
+    <StyledShadowBox shadow={shadow}>
+      <Typography variant="caption">{label}</Typography>
+    </StyledShadowBox>
+  );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleFileUpload = (files: File[]) => {
+    console.log('Files uploaded:', files);
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -306,51 +410,198 @@ export const Login = () => {
         </Section>
         <ColorSectionWrapper>
           <Dropdown
-            name="single-select"
-            label="Select a Option"
+            label="Choose"
             options={options}
             value={dropdownValue}
-            onChange={handleDropdownChange}
+            onChange={setDropdownValue}
+          />
+        </ColorSectionWrapper>
+
+        <Section>
+          <SectionTitle>Pagination Example</SectionTitle>
+          <PaginationWrapper>
+            <Typography variant="body2">
+              Total suggestions: {totalItems}
+            </Typography>
+            <CustomPagination
+              totalItems={totalItems}
+              page={page}
+              perPage={perPage}
+              onPageChange={setPage}
+              onPerPageChange={handlePerPageChange}
+            />
+            <PerPage
+              perPage={perPage}
+              perPageOptions={perPageOptions}
+              onPerPageChange={handlePerPageChange}
+            />
+          </PaginationWrapper>
+        </Section>
+        <h2>Date Picker with Calendar Switch</h2>
+        <ToggleButtonGroup
+          value={calendarType}
+          exclusive
+          onChange={handleCalendarChange}
+          aria-label="calendar type"
+          size="small"
+        >
+          <ToggleButton value="gregorian" aria-label="gregorian">
+            Gregorian
+          </ToggleButton>
+          <ToggleButton value="jalali" aria-label="jalali">
+            Jalali
+          </ToggleButton>
+        </ToggleButtonGroup>
+        <ColorSectionWrapper>
+          <DatePicker
+            value={selectedDate}
+            onChange={setSelectedDate}
+            minDate={minDate}
+            maxDate={maxDate}
+            calendarType={calendarType}
+          />
+        </ColorSectionWrapper>
+        <Loading open={loading} />
+        <Button loading={false} size="small">
+          save
+        </Button>
+        <Button loading={true} size="medium">
+          save
+        </Button>
+        <Button loading={true} size="large" color="secondary">
+          save
+        </Button>
+        <Button size="large" color="secondary">
+          save
+        </Button>
+
+        <Box display={'flex'} flexWrap={'wrap'} gap={10}>
+          <ShadowBox shadow={'1'} label="Drop Shadow - 01" />
+          <ShadowBox shadow={'2'} label="Drop Shadow - 02" />
+          <ShadowBox shadow={'3'} label="Drop Shadow - 03" />
+          <ShadowBox shadow={'4'} label="Drop Shadow - 04" />
+          <ShadowBox shadow={'5'} label="Drop Shadow - 05" />
+          <ShadowBox shadow={'6'} label="Drop Shadow - 06" />
+          <ShadowBox shadow="none" label="No Shadow" />
+        </Box>
+
+        <ColorSectionWrapper>
+          <Button variant="contained" onClick={() => setModalOpen(true)}>
+            Open Upload
+          </Button>
+          <FileUploadModal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onFileUpload={handleFileUpload}
+          />
+        </ColorSectionWrapper>
+        <ColorSectionWrapper>
+          <Button onClick={() => setSnackbarOpen(true)}>Open Snackbar</Button>
+          <Snackbar
+            open={snackbarOpen}
+            onClose={() => setSnackbarOpen(false)}
+            message="This Snackbar will be dismissed in 3 seconds."
+            severity="success"
           />
         </ColorSectionWrapper>
       </Container>
-      <h2>Date Picker with Calendar Switch</h2>
-      <ToggleButtonGroup
-        value={calendarType}
-        exclusive
-        onChange={handleCalendarChange}
-        aria-label="calendar type"
-        size="small"
-      >
-        <ToggleButton value="gregorian" aria-label="gregorian">
-          Gregorian
-        </ToggleButton>
-        <ToggleButton value="jalali" aria-label="jalali">
-          Jalali
-        </ToggleButton>
-      </ToggleButtonGroup>
+
       <ColorSectionWrapper>
-        <DatePicker
-          value={selectedDate}
-          onChange={setSelectedDate}
-          minDate={minDate}
-          maxDate={maxDate}
-          calendarType={calendarType}
-        />
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => handleOpenDialog('success')}
+        >
+          Show Success
+        </Button>
+
+        <Button
+          variant="contained"
+          color="warning"
+          onClick={() => handleOpenDialog('attention')}
+        >
+          Show Attention
+        </Button>
+
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => handleOpenDialog('warning')}
+        >
+          Show Warning
+        </Button>
+
+        <Modal
+          open={dialogState.open}
+          type={dialogState.type}
+          title={dialogState.title}
+          onClose={handleClose}
+          onAccept={handleAccept}
+        >
+          {dialogState.message}
+        </Modal>
       </ColorSectionWrapper>
-      <Loading open={loading} />
-      <Button loading={false} size="small">
-        save
-      </Button>
-      <Button loading={true} size="medium">
-        save
-      </Button>
-      <Button loading={true} size="large" color="secondary">
-        save
-      </Button>
-      <Button size="large" color="secondary">
-        save
-      </Button>
+      <Box
+        marginY={'200px'}
+        width={'300px'}
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'50px'}
+      >
+        <Input
+          placeholder="kddd"
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          hasError={false}
+        />
+        <Input
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          hasError={true}
+        />
+        <Input
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          endIcon={<Info />}
+        />
+        <Input
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          startIcon={<Info />}
+        />
+        <Input
+          placeholder="text"
+          name="amount"
+          label="Amount"
+          type="text"
+          value={amount}
+          handleOnChange={(val) => setAmount(val)}
+          guidMessage="مثال: 1,000.00"
+          required
+          startIcon={<Search />}
+          endIcon={<Close />}
+        />
+      </Box>
     </ThemeProvider>
   );
 };

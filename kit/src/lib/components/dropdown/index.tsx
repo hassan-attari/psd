@@ -1,32 +1,42 @@
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormHelperText,
-} from '@mui/material';
-import { BaseDropdownProps } from './dropdown';
+import React from 'react';
+import { Autocomplete, TextField, FormControl } from '@mui/material';
+import { DropdownProps, DropdownOption } from './dropdown';
 
-export const Dropdown = <OVT extends string | number>(
-  props: BaseDropdownProps<OVT>
-) => {
-  const {
-    name,
-    label,
-    options,
-    value,
-    onChange,
-    helperText,
-    error = false,
-    disabled = false,
-    required = false,
-    fullWidth = true,
-    size = 'medium',
-    variant = 'outlined',
-    selectProps,
-  } = props;
+export function Dropdown<T>({
+  label = 'Select:',
+  options = [],
+  value,
+  onChange,
+  multiple = false,
+  placeholder = '',
+  size = 'medium',
+  fullWidth = false,
+  error,
+  required,
+  disabled,
+  helperText,
+  variant = 'outlined',
+}: DropdownProps<T>) {
+  const getOptionDisabled = (option: DropdownOption<T>) => !!option.disabled;
 
-  type CurrentSelectValueType = OVT | '';
+  const handleChange = (
+    _: React.SyntheticEvent,
+    newValue: DropdownOption<T> | DropdownOption<T>[] | null
+  ) => {
+    if (multiple) {
+      const values = (newValue as DropdownOption<T>[]).map((o) => o.value);
+      onChange(values);
+    } else {
+      onChange((newValue as DropdownOption<T>)?.value);
+    }
+  };
+
+  const getValue = () => {
+    if (multiple) {
+      return options.filter((o) => (value as T[])?.includes(o.value));
+    }
+    return options.find((o) => o.value === value) || null;
+  };
 
   return (
     <FormControl
@@ -37,32 +47,28 @@ export const Dropdown = <OVT extends string | number>(
       required={required}
       variant={variant}
     >
-      {label && <InputLabel id={`${name}-label`}>{label}</InputLabel>}
-      <Select<CurrentSelectValueType>
-        labelId={`${name}-label`}
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
+      <Autocomplete
+        multiple={multiple}
+        disableCloseOnSelect={multiple}
+        options={options}
+        value={getValue()}
+        onChange={handleChange}
+        getOptionDisabled={getOptionDisabled}
         disabled={disabled}
-        variant={variant}
-        label={label}
-        size={size}
-        {...selectProps}
-      >
-        {options?.map((option) => (
-          <MenuItem
-            key={String(option.value)}
-            value={option.value}
-            disabled={option.disabled}
-          >
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
-      {helperText && (
-        <FormHelperText error={error}>{helperText}</FormHelperText>
-      )}
+        isOptionEqualToValue={(option, val) => option.value === val.value}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant={variant}
+            size={size}
+            label={label}
+            placeholder={placeholder}
+            error={error}
+            helperText={helperText}
+            disabled={disabled}
+          />
+        )}
+      />
     </FormControl>
   );
-};
+}
