@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Header, theme } from '@dashboard/kit';
 
-// متااطلاعات کلی
 const meta: Meta<typeof Header> = {
   title: 'Components/Header',
   component: Header,
@@ -11,14 +10,14 @@ const meta: Meta<typeof Header> = {
       control: 'text',
       description: 'عنوان نمایشی در هدر',
     },
-    color: {
+    customcolor: {
       control: 'color',
       description: 'رنگ پس‌زمینه هدر',
       defaultValue: theme.palette.primary.main,
     },
   },
   parameters: {
-    layout: 'fullscreen', // برای نمایش هدر در عرض کامل
+    layout: 'fullscreen',
   },
 };
 export default meta;
@@ -50,7 +49,7 @@ export const ShortTitle: Story = {
 export const CustomColor: Story = {
   args: {
     title: 'Custom Color Header',
-    color: '#4a148c', // رنگ بنفش تیره
+    customcolor: theme.palette.secondary.main,
   },
 };
 
