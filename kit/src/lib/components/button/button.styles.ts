@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
+import palette from '../theme/palette';
 
 export const StyledButton = styled(Button)`
   position: relative;
   overflow: hidden;
+  border: 1px solid ${palette?.gray?.lightActive};
 `;
 
 export const HiddenContent = styled(Box)`

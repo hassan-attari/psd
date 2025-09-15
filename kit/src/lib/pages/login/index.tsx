@@ -42,6 +42,7 @@ import {
 import { CustomPagination } from '../../components/pagination';
 import { DialogType } from '../../components/modal/modal';
 import { Modal } from '../../components/modal';
+import { Header } from '../../components/header';
 
 const typographyClasses = [
   'text-xs-regular',
@@ -293,6 +294,9 @@ export const Login = () => {
     <ThemeProvider theme={theme}>
       <Container>
         <Title>Login Page</Title>
+        <Box sx={{ margin: '2rem 0' }}>
+          <Header title="Suggestions" />
+        </Box>
         <Button onClick={() => setLoading(!loading)}>Run loading</Button>
         <Title>Button Style Guide</Title>
         {colors.map((color) => (

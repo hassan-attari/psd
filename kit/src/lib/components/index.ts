@@ -12,3 +12,4 @@ export * from './upload';
 export * from './snackbar';
 export * from './modal';
 export * from './input';
+export * from './header';
