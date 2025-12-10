@@ -11,12 +11,22 @@ import { customShadows } from './shadow';
 import MuiInput from './input';
 
 export const theme = createTheme({
+  direction: 'rtl',
   palette: palette,
   typography: {
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'Vazir, Roboto, sans-serif',
   },
   shadows: customShadows,
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          margin: 0,
+          backgroundColor: palette.background.default,
+          color: palette.text.primary,
+        },
+      },
+    },
     MuiTypography: typographyStyleOverrides,
     MuiChip: chipStyleOverrides,
     MuiCheckbox: checkboxStyleOverrides,

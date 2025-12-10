@@ -16,6 +16,9 @@ const MuiInput = {
         borderColor: '#d32f2f',
       },
     },
+    input: {
+      textAlign: 'right',
+    },
   },
 };
 

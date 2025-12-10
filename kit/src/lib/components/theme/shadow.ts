@@ -1,11 +1,17 @@
 import { Theme } from '@mui/material';
 import palette from './palette';
+
 function applyAlpha(color: string, alpha: number) {
+  if (!color || !color.startsWith('#')) {
+    // Return a default or transparent color if the input is invalid
+    return `rgba(0, 0, 0, ${alpha})`;
+  }
   const r = parseInt(color.slice(1, 3), 16);
   const g = parseInt(color.slice(3, 5), 16);
   const b = parseInt(color.slice(5, 7), 16);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+
 export const customShadows = [
   'none',
   `0px 6px 10px 0px ${applyAlpha(palette.black.main, 0.06)}`,

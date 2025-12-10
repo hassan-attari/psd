@@ -4,5 +4,8 @@
   "private": true,
   "nx": {
     "name": "dashboard"
+  },
+  "dependencies": {
+    "@fontsource/vazir": "^4.5.4"
   }
 }

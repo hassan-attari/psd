@@ -13,5 +13,10 @@
       "import": "./dist/index.esm.js",
       "default": "./dist/index.esm.js"
     }
+  },
+  "dependencies": {
+    "react-hook-form": "^7.52.1",
+    "@hookform/resolvers": "^3.9.0",
+    "zod": "^3.23.8"
   }
 }

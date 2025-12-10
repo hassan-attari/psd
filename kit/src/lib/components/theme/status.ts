@@ -14,11 +14,11 @@ export const chipStyleOverrides = {
         color: palette.secondary.main,
       },
       '&.MuiChip-colorError': {
-        backgroundColor: palette.error.light,
+        backgroundColor: 'rgba(244, 67, 54, 0.1)',
         color: palette.error.main,
       },
       '&.MuiChip-colorWarning': {
-        backgroundColor: palette.warning.lightHover,
+        backgroundColor: palette.warning.light,
         color: palette.warning.main,
       },
       '&.MuiChip-colorSuccess': {
@@ -26,8 +26,8 @@ export const chipStyleOverrides = {
         color: palette.success.main,
       },
       '&.MuiChip-colorDefault': {
-        backgroundColor: palette.gray.lightActive,
-        color: palette.gray.darkActive,
+        backgroundColor: palette.gray.dark,
+        color: palette.gray.light,
       },
     },
   },
