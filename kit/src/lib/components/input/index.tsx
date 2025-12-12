@@ -24,6 +24,7 @@ export const Input: FC<InputProps> = ({
   maxLength,
   disabled = false,
   handleOnChange,
+  onChange,
   hasNumberSeparator = false,
   required,
   showIcon,
@@ -36,8 +37,12 @@ export const Input: FC<InputProps> = ({
   startIcon,
   ...rest
 }) => {
+  const stringValue =
+    value === undefined || value === null ? '' : String(value);
   const formattedValue =
-    hasNumberSeparator && value !== '' ? formatWithCommas(value) : value;
+    hasNumberSeparator && stringValue !== ''
+      ? formatWithCommas(stringValue)
+      : stringValue;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = (e.target as HTMLInputElement).value;
@@ -46,8 +51,20 @@ export const Input: FC<InputProps> = ({
       const raw = removeCommas(input);
       if (!/^\d*\.?\d*$/.test(raw)) return;
       handleOnChange?.(raw);
+      // برای react-hook-form، باید event را با مقدار raw ارسال کنیم
+      if (onChange) {
+        const syntheticEvent = {
+          ...e,
+          target: { ...e.target, value: raw },
+        } as React.ChangeEvent<HTMLInputElement>;
+        onChange(syntheticEvent);
+      }
     } else {
       handleOnChange?.(input);
+      // برای react-hook-form
+      if (onChange) {
+        onChange(e);
+      }
     }
   };
 
@@ -55,7 +72,7 @@ export const Input: FC<InputProps> = ({
     if (!hasNumberSeparator) return;
     const invalidKeys = ['e', 'E', '+', '-'];
     if (invalidKeys.includes(e.key)) e.preventDefault();
-    if (e.key === '.' && String(value).includes('.')) e.preventDefault();
+    if (e.key === '.' && stringValue.includes('.')) e.preventDefault();
   };
 
   return (
@@ -63,6 +80,7 @@ export const Input: FC<InputProps> = ({
       fullWidth
       id={name}
       name={name}
+      type={type}
       variant="outlined"
       placeholder={placeholder}
       value={formattedValue}
@@ -74,6 +92,22 @@ export const Input: FC<InputProps> = ({
       error={hasError}
       label={required ? `${label} *` : label}
       helperText={hasError ? guidMessage : ''}
+      InputLabelProps={{
+        style: {
+          textAlign: 'right',
+          direction: 'rtl',
+          right: 0,
+          left: 'auto',
+          transformOrigin: 'top right',
+        },
+      }}
+      inputProps={{
+        maxLength: maxLength,
+        style: {
+          textAlign: 'right',
+          direction: 'rtl',
+        },
+      }}
       slotProps={{
         input: {
           endAdornment: (hasError || endIcon) && (
@@ -89,6 +123,7 @@ export const Input: FC<InputProps> = ({
         },
       }}
       className={className}
+      {...rest}
     />
   );
 };

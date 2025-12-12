@@ -9,6 +9,7 @@ import { formControlStyleOverrides } from './form-control';
 import { selectStyleOverrides } from './select';
 import { customShadows } from './shadow';
 import MuiInput from './input';
+import MuiInputLabel from './input-label';
 
 export const theme = createTheme({
   direction: 'rtl',
@@ -36,5 +37,6 @@ export const theme = createTheme({
     MuiSelect: selectStyleOverrides,
     MuiAutocomplete: dropdownStyleOverrides,
     MuiOutlinedInput: MuiInput,
+    MuiInputLabel: MuiInputLabel,
   },
 });

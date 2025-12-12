@@ -18,6 +18,7 @@
     "@mui/material": "^7.1.0",
     "@mui/x-date-pickers": "^8.4.0",
     "@nrwl/react": "^19.8.4",
+    "axios": "^1.13.2",
     "date-fns": "^4.1.0",
     "date-fns-jalali": "^3.2.0-0",
     "react": "19.0.0",

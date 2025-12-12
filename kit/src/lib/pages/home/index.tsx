@@ -20,6 +20,7 @@ import {
   ExitToApp,
   Add,
 } from '@mui/icons-material';
+import { logout } from '../../api/services/auth.service';
 
 const HomeContainer = styled(Container)`
   padding: 2rem;
@@ -62,9 +63,16 @@ export const Home = () => {
   const navigate = useNavigate();
   const [userName] = useState('کاربر'); // TODO: از context یا state management بگیرید
 
-  const handleLogout = () => {
-    // TODO: اضافه کردن منطق logout
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // بعد از logout موفق، به صفحه login هدایت می‌شود
+      navigate('/login');
+    } catch (error) {
+      // حتی اگر خطا رخ دهد، token پاک شده و به login هدایت می‌شود
+      console.error('Logout error:', error);
+      navigate('/login');
+    }
   };
 
   const handleCreateMeeting = () => {

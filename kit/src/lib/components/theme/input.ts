@@ -18,6 +18,10 @@ const MuiInput = {
     },
     input: {
       textAlign: 'right',
+      '&::placeholder': {
+        textAlign: 'right',
+        direction: 'rtl',
+      },
     },
   },
 };

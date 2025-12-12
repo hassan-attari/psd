@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Box, Container, Typography, Link } from '@mui/material';
@@ -6,13 +7,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input } from '../../components';
 import { loginSchema, LoginFormInputs } from './login.schema';
+import { login } from '../../api/services/auth.service';
 
 const LoginContainer = styled(Container)`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #1a2035;
 `;
 
 const FormWrapper = styled(Box)`
@@ -66,21 +67,94 @@ const StyledLink = styled(Link)`
 
 export const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginSchema as any),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log('Login attempt:', data);
-    navigate('/home');
+  const onSubmit = async (data: LoginFormInputs) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await login({
+        email: data.email,
+        password: data.password,
+      });
+
+      console.log('Login response received:', response);
+
+      // اگر response.success وجود دارد و true است
+      if (response && response.success === true) {
+        // ذخیره accessToken در localStorage
+        const accessToken =
+          response.accessToken || response.token || response.data?.accessToken;
+        if (accessToken) {
+          localStorage.setItem('token', accessToken);
+          console.log('AccessToken saved to localStorage');
+        }
+        // ورود موفقیت‌آمیز بود
+        navigate('/home');
+      } else if (response && response.success === false) {
+        // ورود ناموفق بود
+        setError(response.message || 'خطا در ورود');
+      } else {
+        // اگر response.success وجود ندارد، فرض می‌کنیم موفق بوده
+        const accessToken =
+          response.accessToken || response.token || response.data?.accessToken;
+        if (accessToken) {
+          localStorage.setItem('token', accessToken);
+          console.log('AccessToken saved to localStorage');
+        }
+        navigate('/home');
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      console.error('Error response:', err.response);
+
+      // نمایش خطای دقیق‌تر
+      let errorMessage = 'خطا در ارتباط با سرور';
+
+      if (err.response) {
+        // سرور پاسخ داده
+        const status = err.response.status;
+        const responseData = err.response.data;
+
+        if (responseData?.message) {
+          errorMessage = responseData.message;
+        } else if (responseData?.error) {
+          errorMessage = responseData.error;
+        } else if (status === 401) {
+          errorMessage = 'ایمیل یا رمز عبور اشتباه است';
+        } else if (status === 400) {
+          errorMessage = 'اطلاعات ارسالی معتبر نیست';
+        } else if (status === 500) {
+          errorMessage = 'خطای سرور. لطفاً دوباره تلاش کنید';
+        } else {
+          errorMessage = `خطا: ${status}`;
+        }
+      } else if (err.request) {
+        // درخواست ارسال شده اما پاسخی دریافت نشده (مشکل CORS یا شبکه)
+        errorMessage =
+          'خطا در ارتباط با سرور. لطفاً اتصال اینترنت خود را بررسی کنید';
+      } else {
+        errorMessage = err.message || errorMessage;
+      }
+
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -91,6 +165,12 @@ export const Login = () => {
         <Subtitle variant="body1">وارد حساب کاربری خود شوید</Subtitle>
 
         <Form onSubmit={handleSubmit(onSubmit)}>
+          {error && (
+            <Typography color="error" variant="body2" sx={{ mb: 1 }}>
+              {error}
+            </Typography>
+          )}
+
           <Controller
             name="email"
             control={control}
@@ -126,8 +206,9 @@ export const Login = () => {
             variant="contained"
             color="primary"
             size="large"
+            disabled={isLoading}
           >
-            ورود
+            {isLoading ? 'در حال ورود...' : 'ورود'}
           </Button>
         </Form>
         <SignUpLink>

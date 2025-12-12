@@ -8,6 +8,7 @@ export type InputProps = {
   maxLength?: number;
   disabled?: boolean;
   handleOnChange?: (value: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   hasNumberSeparator?: boolean;
   required?: boolean;
   showIcon?: React.ReactNode;

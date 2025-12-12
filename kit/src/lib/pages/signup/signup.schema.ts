@@ -2,11 +2,14 @@ import { z } from 'zod';
 
 export const signupSchema = z
   .object({
-    firstName: z.string().min(2, { message: 'نام باید حداقل ۲ حرف باشد' }),
-    lastName: z
+    fullName: z
       .string()
-      .min(2, { message: 'نام خانوادگی باید حداقل ۲ حرف باشد' }),
+      .min(2, { message: 'نام و نام خانوادگی باید حداقل ۲ حرف باشد' }),
     email: z.string().email({ message: 'ایمیل معتبر نیست' }),
+    phoneNumber: z
+      .string()
+      .min(11, { message: 'شماره تلفن باید ۱۱ رقم باشد' })
+      .regex(/^09\d{9}$/, { message: 'شماره تلفن معتبر نیست' }),
     password: z.string().min(6, { message: 'رمز عبور باید حداقل ۶ حرف باشد' }),
     confirmPassword: z.string(),
     agreeToTerms: z.boolean().refine((val) => val === true, {
